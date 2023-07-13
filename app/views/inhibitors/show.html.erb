@@ -1,0 +1,12 @@
+<h1><%= @inhibitor.name %></h1>
+
+ <p>Chemical Structure<%= @inhibitor.structure %></p>
+  
+    <p>Chemical Name<%= @inhibitor.name %></p>
+  
+    <p>Lipinski Violation?<%= @inhibitor.lipinski %></p>
+
+<p>Binds To:  <%= @inhibitor.protein.title %></p>
+
+<%= link_to "Update", "/inhibitors/#{@inhibitor.id}/edit" %>
+<%= link_to "Delete #{@inhibitor.name}", "/inhibitors/#{@inhibitor.id}", method: :delete %>

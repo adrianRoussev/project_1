@@ -1,0 +1,21 @@
+<h1>All Inhibitors</h1>
+
+
+
+<ol>
+  <% @inhibitors.each do |inhibitor| %>
+    <li>
+      <h3 class="inhibitor"><%= inhibitor.name %></h3>
+      <ul>
+      <li>Chemical Structure: <%= inhibitor.structure %></li>
+      <li>Chemical Name: <%= inhibitor.name %></li>
+      <li>Binds To Protein: <%= inhibitor.protein.title %></li>
+      </ul><br/>
+
+ <%= link_to "Edit Inhibitor '#{inhibitor.name}'", "/inhibitors/#{inhibitor.id}/edit" %>
+    </li>
+  <% end %>
+</ol>
+
+<%= link_to "<- Back", "/" %>
+

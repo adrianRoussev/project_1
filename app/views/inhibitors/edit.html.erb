@@ -1,0 +1,11 @@
+<h1>Edit Information For <%= @inhibitor.name %></h1>
+
+<%= form_with url: "/inhibitors/#{@inhibitor.id}", method: "patch", local: true do |form| %>
+  <%= form.label "Chemical Name" %>
+  <%= form.text_field "Chemical Name", value: "#{@inhibitor.name}" %><br>
+  <%= form.label "Chemical Structure" %>
+  <%= form.text_field "Chemical Structure", value: @inhibitor.structure %>
+  <%= form.label "Lipinski Violation?" %>
+  <%= form.check_box "Lipinski Violation?", checked: @inhibitor.lipinski %>
+  <%= form.submit "Update" %>
+<% end %>

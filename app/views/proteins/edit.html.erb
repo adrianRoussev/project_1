@@ -1,0 +1,8 @@
+<form action="/proteins/<%= @protein.id %>" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="_method" value="PATCH" />
+  <p>Edit</p>
+  <input type='text' name='protein[title]' value="<%= @protein.title %>"/><br/>
+  <textarea name='protein[description]'><%= @protein.description %></textarea><br/>
+  <input type='submit'/>
+</form>

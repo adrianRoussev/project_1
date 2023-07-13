@@ -1,0 +1,21 @@
+
+<h1>All Proteins</h1>
+
+<ol>
+<% @proteins.each do |protein| %>
+<li>
+  <h3><a href="/proteins/<%= protein.id %>"><%= protein.title %></a></h3>
+<ul>
+<li> <%= protein.description %></li>
+</ul><br/>
+  <button onclick="location.href='/proteins/<%= protein.id %>/edit'">Edit</button>
+  
+  <form action="/proteins/<%= protein.id %>" method="POST">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete"/>
+  </form>
+<% end %><br/>
+</ol>
+<%= link_to "Add New Protein", '/proteins/new' %><br/><br/>
+<%= link_to "<- Back to home", "/" %>

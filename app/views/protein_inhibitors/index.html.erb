@@ -1,0 +1,21 @@
+
+<h1>Inhibitors from <%= @protein.title %></h1>
+<%= link_to "Alphabetize", "/proteins/#{@protein.id}/inhibitors?sort=alpha" %>
+
+<ol>
+  <% @inhibitors.each do |inhibitor| %>
+    <li>
+      <h3 class="inhibitor"><%= inhibitor.name %></h3>
+      <ul>
+      <li>Chemical Structure: <%= inhibitor.structure %></li>
+      <li>Chemical Name: <%= inhibitor.name %></li>
+      <li>Binds To Protein: <%= inhibitor.protein.title %></li>
+      </ul><br/>
+
+ <%= link_to "Edit Inhibitor '#{inhibitor.name}'", "/inhibitors/#{inhibitor.id}/edit" %>
+    </li>
+  <% end %>
+</ol><br/>
+
+<button onclick="location.href='/proteins/<%= @protein.id %>/inhibitors/new'">Add Inhibitor</button><br/><br/><br/>
+<%= link_to "<- Back to #{@protein.title} ", "/proteins/#{@protein.id}" %>

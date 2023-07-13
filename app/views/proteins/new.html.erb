@@ -1,0 +1,11 @@
+<form action="/proteins" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <p>Enter a new protein:</p>
+  <input type='text' name='protein[title]'/><br/>
+  <textarea name='protein[description]'></textarea><br/>
+  <input type='submit'/>
+</form><br/>
+
+<%= link_to "<- Back to home", "/" %>,   
+  <%= link_to "<- Back to protein index", "/proteins" %>
+

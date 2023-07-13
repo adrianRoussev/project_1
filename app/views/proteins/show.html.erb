@@ -1,0 +1,12 @@
+
+
+
+<h1><%= @protein.title %></h1>
+
+<p><%= @protein.description %></p>
+
+<%= link_to "See Inhibitors For '#{@protein.title}' Or Add An Inhibitor ->", "/proteins/#{@protein.id}/inhibitors" %><br/><br/>
+
+
+
+  <%= link_to "<- Back to protein index", "/proteins" %>
