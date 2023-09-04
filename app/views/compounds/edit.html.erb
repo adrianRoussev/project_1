@@ -1,0 +1,26 @@
+<h1>Edit Information For <%= @compound.name %></h1>
+
+<%= form_with url: "/compounds/#{@compound.id}", method: "patch", local: true do |form| %>
+  <%= form.label "Chemical Name" %>
+  <%= form.text_field "name", value: @compound.name %>
+  <%= form.label "molecular_formula" %>
+  <%= form.text_field "molecular_formula", value: @compound.molecular_formula %>
+  <%= form.label "smiles" %>
+  <%= form.text_field "smiles", value: @compound.smiles %>
+<%= form.label "molecular_weight" %>
+  <%= form.text_field "molecular_weight", value: @compound.molecular_weight %>
+<%= form.label "nucleophiles" %>
+  <%= form.text_field "nucleophiles", value: @compound.nucleophiles %>
+<%= form.label "electrophiles" %>
+  <%= form.text_field "electrophiles", value: @compound.electrophiles %>
+<%= form.label "charge" %>
+  <%= form.text_field "charge", value: @compound.charge %>
+<%= form.label "log_p" %>
+  <%= form.text_field "log_p", value: @compound.log_p %>
+<%= form.label "mass_available" %>
+  <%= form.text_field "mass_available", value: @compound.mass_available %>
+
+  <%= form.submit "Save" %>
+<% end %><br/>
+
+<%= link_to "<- Back to home", "/" %>

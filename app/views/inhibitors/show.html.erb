@@ -1,12 +1,113 @@
 <h1><%= @inhibitor.name %></h1>
 
- <p>Chemical Structure<%= @inhibitor.structure %></p>
+    <p>Chemical Structure : <%= @inhibitor.structure %></p>
   
-    <p>Chemical Name<%= @inhibitor.name %></p>
-  
-    <p>Lipinski Violation?<%= @inhibitor.lipinski %></p>
+    <p>Chemical Name : <%= @inhibitor.name %></p>
 
-<p>Binds To:  <%= @inhibitor.protein.title %></p>
+    <p> Target Site : <%=@inhibitor.target_site%></p>
 
-<%= link_to "Update", "/inhibitors/#{@inhibitor.id}/edit" %>
-<%= link_to "Delete #{@inhibitor.name}", "/inhibitors/#{@inhibitor.id}", method: :delete %>
+    <p> Smiles : <%=@inhibitor.smiles%></p>     
+
+    <p>Binds To:  <%= @inhibitor.protein.title %></p>
+
+
+<h1>Compound Properties for <%=@inhibitor.name%></h1>
+
+<% if @properties %>
+
+
+<p>Chemical Structure: <%= @inhibitor.structure %></p>
+<p>Lipinski Violation?: <%= @inhibitor.lipinskis %></p>
+<p>Target Site: <%= @inhibitor.target_site %></p>
+<p>No. H-Bond Donnors: <%= @inhibitor.no_h_donnors %></p>
+<p>No. H-Bond Acceptors: <%= @inhibitor.no_h_acceptors %></p>
+<p>No. Rotatable Bonds: <%= @inhibitor.no_rotatable_bonds %></p>
+<p>No. Heavy Atoms: <%= @inhibitor.no_heavy_atoms %></p>
+<p>Smiles: <%= @inhibitor.smiles %></p>
+<p>Molecular Formula: <%= @inhibitor.molecular_formula %></p>
+<p>Molecular Weight: <%= @inhibitor.molecular_weight %></p>
+<p>Canonical SMILES: <%= @inhibitor.canonical_smiles %></p>
+<p>Isomeric SMILES: <%= @inhibitor.isomeric_smiles %></p>
+<p>InChI: <%= @inhibitor.inchi %></p>
+<p>InChI Key: <%= @inhibitor.inchi_key %></p>
+<p>IUPAC Name: <%= @inhibitor.iupac_name %></p>
+<p>Title: <%= @inhibitor.title %></p>
+<p>XLogP: <%= @inhibitor.x_log_p %></p>
+<p>Exact Mass: <%= @inhibitor.exact_mass %></p>
+<p>Monoisotopic Mass: <%= @inhibitor.monoisotopic_mass %></p>
+<p>TPSA: <%= @inhibitor.tpsa %></p>
+<p>Complexity: <%= @inhibitor.complexity %></p>
+<p>Charge: <%= @inhibitor.charge %></p>
+<p>H-Bond Donor Count: <%= @inhibitor.h_bond_donor_count %></p>
+<p>H-Bond Acceptor Count: <%= @inhibitor.h_bond_acceptor_count %></p>
+<p>Rotatable Bond Count: <%= @inhibitor.rotatable_bond_count %></p>
+<p>Heavy Atom Count: <%= @inhibitor.heavy_atom_count %></p>
+<p>Isotope Atom Count: <%= @inhibitor.isotope_atom_count %></p>
+<p>Atom Stereo Count: <%= @inhibitor.atom_stereo_count %></p>
+<p>Defined Atom Stereo Count: <%= @inhibitor.defined_atom_stereo_count %></p>
+<p>Undefined Atom Stereo Count: <%= @inhibitor.undefined_atom_stereo_count %></p>
+<p>Bond Stereo Count: <%= @inhibitor.bond_stereo_count %></p>
+<p>Defined Bond Stereo Count: <%= @inhibitor.defined_bond_stereo_count %></p>
+<p>Undefined Bond Stereo Count: <%= @inhibitor.undefined_bond_stereo_count %></p>
+<p>Covalent Unit Count: <%= @inhibitor.covalent_unit_count %></p>
+<p>Patent Count: <%= @inhibitor.patent_count %></p>
+<p>Patent Family Count: <%= @inhibitor.patent_family_count %></p>
+<p>Literature Count: <%= @inhibitor.literature_count %></p>
+<% else %>
+
+  <h2>No properties found for <%= @inhibitor.name %></h2>
+
+  <p>Chemical Structure: <%= @inhibitor.structure %></p>
+<p>Lipinski Violation?: <%= @inhibitor.lipinskis %></p>
+<p>Target Site: <%= @inhibitor.target_site %></p>
+<p>No. H-Bond Donnors: <%= @inhibitor.no_h_donnors %></p>
+<p>No. H-Bond Acceptors: <%= @inhibitor.no_h_acceptors %></p>
+<p>No. Rotatable Bonds: <%= @inhibitor.no_rotatable_bonds %></p>
+<p>No. Heavy Atoms: <%= @inhibitor.no_heavy_atoms %></p>
+<p>Smiles: <%= @inhibitor.smiles %></p>
+<p>Molecular Formula: <%= @inhibitor.molecular_formula %></p>
+<p>Molecular Weight: <%= @inhibitor.molecular_weight %></p>
+<p>Canonical SMILES: <%= @inhibitor.canonical_smiles %></p>
+<p>Isomeric SMILES: <%= @inhibitor.isomeric_smiles %></p>
+<p>InChI: <%= @inhibitor.inchi %></p>
+<p>InChI Key: <%= @inhibitor.inchi_key %></p>
+<p>IUPAC Name: <%= @inhibitor.iupac_name %></p>
+<p>Title: <%= @inhibitor.title %></p>
+<p>XLogP: <%= @inhibitor.x_log_p %></p>
+<p>Exact Mass: <%= @inhibitor.exact_mass %></p>
+<p>Monoisotopic Mass: <%= @inhibitor.monoisotopic_mass %></p>
+<p>TPSA: <%= @inhibitor.tpsa %></p>
+<p>Complexity: <%= @inhibitor.complexity %></p>
+<p>Charge: <%= @inhibitor.charge %></p>
+<p>H-Bond Donor Count: <%= @inhibitor.h_bond_donor_count %></p>
+<p>H-Bond Acceptor Count: <%= @inhibitor.h_bond_acceptor_count %></p>
+<p>Rotatable Bond Count: <%= @inhibitor.rotatable_bond_count %></p>
+<p>Heavy Atom Count: <%= @inhibitor.heavy_atom_count %></p>
+<p>Isotope Atom Count: <%= @inhibitor.isotope_atom_count %></p>
+<p>Atom Stereo Count: <%= @inhibitor.atom_stereo_count %></p>
+<p>Defined Atom Stereo Count: <%= @inhibitor.defined_atom_stereo_count %></p>
+<p>Undefined Atom Stereo Count: <%= @inhibitor.undefined_atom_stereo_count %></p>
+<p>Bond Stereo Count: <%= @inhibitor.bond_stereo_count %></p>
+<p>Defined Bond Stereo Count: <%= @inhibitor.defined_bond_stereo_count %></p>
+<p>Undefined Bond Stereo Count: <%= @inhibitor.undefined_bond_stereo_count %></p>
+<p>Covalent Unit Count: <%= @inhibitor.covalent_unit_count %></p>
+<p>Patent Count: <%= @inhibitor.patent_count %></p>
+<p>Patent Family Count: <%= @inhibitor.patent_family_count %></p>
+<p>Literature Count: <%= @inhibitor.literature_count %></p>
+<% end %>
+
+
+<% if @inhibitor.image_path %>
+  <%= image_tag(@inhibitor.image_path, alt: 'Chemical Structure') %>
+<% else %>
+  <p>Chemical structure image not available.</p>
+<% end %> <br/><br/>
+
+<button onclick="location.href='/inhibitors/<%=@inhibitor.id%>/edit'">Edit</button>
+<br/><br/>
+
+
+
+<%= link_to "<- Back to list of #{@inhibitor.protein.title} Inhibitors ", "/proteins/#{@inhibitor.protein.id}/inhibitors" %><br/><br/>
+
+<%= link_to "<- Back to list of ALL inhibitors", "/inhibitors" %>

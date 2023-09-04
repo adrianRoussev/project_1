@@ -2,10 +2,12 @@
 
 <%= form_with url: "/inhibitors/#{@inhibitor.id}", method: "patch", local: true do |form| %>
   <%= form.label "Chemical Name" %>
-  <%= form.text_field "Chemical Name", value: "#{@inhibitor.name}" %><br>
+  <%= form.text_field "Chemical Name", value: @inhibitor.name %><br>
   <%= form.label "Chemical Structure" %>
   <%= form.text_field "Chemical Structure", value: @inhibitor.structure %>
-  <%= form.label "Lipinski Violation?" %>
-  <%= form.check_box "Lipinski Violation?", checked: @inhibitor.lipinski %>
-  <%= form.submit "Update" %>
+  <%= form.label "Target Site" %>
+  <%= form.select "Target Site", [["Active-Site", "active-site"], ["Allosteric Site", "allosteric-site"]], selected: @inhibitor.target_site %>
+  <%= form.label "Smiles" %>
+  <%= form.text_field "Smiles", value: @inhibitor.smiles %>
+  <%= form.submit "Save" %>
 <% end %>

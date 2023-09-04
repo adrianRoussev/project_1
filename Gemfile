@@ -65,5 +65,11 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+
+  # Add pycall.rb for Python-Ruby integration
+  gem 'pycall'
+  gem 'httparty'
+  gem 'active_model_serializers'
+
 end
 

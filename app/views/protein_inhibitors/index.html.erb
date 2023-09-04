@@ -1,21 +1,41 @@
 
 <h1>Inhibitors from <%= @protein.title %></h1>
-<%= link_to "Alphabetize", "/proteins/#{@protein.id}/inhibitors?sort=alpha" %>
+<button onclick="location.href='/proteins/<%=@protein.id%>/inhibitors?sort=alpha'">Alphabetize</button><br/><br/><br/>
 
 <ol>
   <% @inhibitors.each do |inhibitor| %>
     <li>
-      <h3 class="inhibitor"><%= inhibitor.name %></h3>
+   <h3> <a href="/inhibitors/<%= inhibitor.id %>"><%= inhibitor.name %></a></h3>
       <ul>
       <li>Chemical Structure: <%= inhibitor.structure %></li>
       <li>Chemical Name: <%= inhibitor.name %></li>
+      <li> Target Site: <%=inhibitor.target_site%></li>
+      <li> Smiles: <%=inhibitor.smiles%></li>
+      <li> No. H Donnors: <%=inhibitor.no_h_donnors%></li>
+      <li> No. H Acceptors: <%=inhibitor.no_h_acceptors%></li>
+      <li> No. Rotatable Bonds: <%=inhibitor.no_rotatable_bonds%></li>
+      <li> No. H Heavy Atoms: <%=inhibitor.no_heavy_atoms%></li>
       <li>Binds To Protein: <%= inhibitor.protein.title %></li>
       </ul><br/>
 
- <%= link_to "Edit Inhibitor '#{inhibitor.name}'", "/inhibitors/#{inhibitor.id}/edit" %>
+      <% if inhibitor.image_path %>
+  <%= image_tag(inhibitor.image_path, alt: 'Chemical Structure') %>
+<% else %>
+  <p>Chemical structure image not available.</p>
+<% end %><br/><br/>
+
+ <button onclick="location.href='/inhibitors/<%=inhibitor.id%>/edit'">Edit Inhibitor '<%=inhibitor.name%></button><br/><br/>
+
+ <form action="/inhibitors/<%=inhibitor.id%>%" method="Post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete"/>
+  </form>
     </li>
   <% end %>
 </ol><br/>
 
 <button onclick="location.href='/proteins/<%= @protein.id %>/inhibitors/new'">Add Inhibitor</button><br/><br/><br/>
 <%= link_to "<- Back to #{@protein.title} ", "/proteins/#{@protein.id}" %>
+
+

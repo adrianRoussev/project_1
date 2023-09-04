@@ -13,3 +13,93 @@
  *= require_tree .
  *= require_self
  */
+/* Reset some default styles for consistency */
+html, body {
+    margin: 20;
+    padding: 20;
+  }
+  
+  /* Set the background color and text color */
+  body {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  /* Links styles */
+  a {
+    color: #fff;
+  }
+  
+  /* Remove underline on links */
+  a:hover {
+    text-decoration: none;
+  }
+  
+  /* Headings styles */
+  h1, h2, h3, h4, h5, h6 {
+    color: #fff;
+  }
+  
+  /* Set the color for paragraphs */
+  p {
+    color: #ccc;
+  }
+  
+  /* Set the color for form elements' labels */
+  label {
+    color: #fff;
+  }
+  
+  /* Input fields styles */
+  input[type="text"],
+  input[type="password"],
+  textarea {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+  }
+  
+  /* Buttons styles */
+  button,
+  input[type="submit"],
+  input[type="reset"] {
+    background-color: #222;
+    color: #fff;
+    border: 1px solid #444;
+    cursor: pointer;
+  }
+  
+  /* Styles for primary action buttons */
+  .primary-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+  }
+  
+  /* Override default styling for alerts */
+  .alert {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+  }
+  
+  /* Set the color for alert links */
+  .alert a {
+    color: #007bff;
+  }
+  
+  /* Styles for navigation bar */
+  .navbar {
+    background-color: #111;
+    color: #fff;
+  }
+  
+  /* Styles for footer */
+  .footer {
+    background-color: #111;
+    color: #ccc;
+  }
+  
+  /* Miscellaneous styles */
+  /* Add more styles as needed */
+  

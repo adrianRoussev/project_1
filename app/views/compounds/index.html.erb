@@ -1,0 +1,37 @@
+
+<h1>All Compounds</h1>
+
+<ol>
+<% @compounds.each do |compound| %>
+<li><h3><a href="/compounds/<%= compound.id %>"><%= compound.name %></a></h3></li>
+<ul>
+<li> <%= compound.name %></li>
+<li> <%= compound.smiles %></li>
+<li> <%= compound.molecular_formula %></li>
+<li> <%= compound.molecular_weight %></li>
+<li> <%= compound.nucleophiles %></li>
+<li> <%= compound.electrophiles %></li>
+<li> <%= compound.charge %></li>
+<li> <%= compound.log_p %></li>
+<li> <%= compound.mass_available %></li>
+</ul><br/>
+
+ 
+
+  <button onclick="location.href='/compounds/<%= compound.id %>/edit'">Edit</button>
+  
+  <form action="/compounds/<%= compound.id %>" method="POST">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete"/>
+  </form>
+<% end %><br/>
+
+</ol>
+<%= link_to "Add New Compound", '/compounds/new' %><br/><br/>
+<%= link_to "<- Back to home", "/" %>
+
+
+
+
+

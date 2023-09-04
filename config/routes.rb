@@ -23,4 +23,11 @@ Rails.application.routes.draw do
   patch "/inhibitors/:id", to: "inhibitors#update"
   get "/proteins/:id/inhibitors", to: "protein_inhibitors#index"
   delete "/inhibitors/:id", to: "inhibitors#destroy"
+  get "/compounds", to: "compounds#index"
+  get "/compounds/new", to: "compounds#new"
+  post "/compounds", to: "compounds#create"
+  get "/compounds/:id", to: "compounds#show"
+  get '/compounds/:id/edit', to: 'compounds#edit'
+  patch '/compounds/:id', to: 'compounds#update'
+  delete '/compounds/:id', to: 'compounds#destroy'
 end
