@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_10_192717) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_27_034246) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,7 +19,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_10_192717) do
     t.bigint "compound_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "compoundable_type"
+    t.bigint "compoundable_id"
     t.index ["compound_type", "compound_id"], name: "index_compoundables_on_compound"
+    t.index ["compoundable_type", "compoundable_id"], name: "index_compoundables_on_compoundable"
   end
 
   create_table "compounds", force: :cascade do |t|
@@ -34,6 +37,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_10_192717) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image_path"
+    t.string "compound_type"
+    t.string "compoundable_type"
+    t.bigint "compoundable_id"
+    t.index ["compoundable_type", "compoundable_id"], name: "index_compounds_on_compoundable"
   end
 
   create_table "inhibitors", force: :cascade do |t|
@@ -141,10 +149,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_10_192717) do
     t.integer "step_number"
     t.string "type_of_reaction"
     t.float "temperature_c"
-    t.string "similar_reaction_schemes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "target_product_name"
+    t.string "reaction_smiles"
+    t.string "products", default: [], array: true
+    t.string "generated_products", default: [], array: true
+    t.bigint "inhibitor_id", null: false
+    t.string "reactants", default: [], array: true
+    t.string "image_path"
+    t.index ["inhibitor_id"], name: "index_reactions_on_inhibitor_id"
   end
 
   add_foreign_key "inhibitors", "proteins"
+  add_foreign_key "reactions", "inhibitors"
 end

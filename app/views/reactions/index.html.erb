@@ -1,0 +1,47 @@
+
+<h1>All reactions</h1>
+
+<ol>
+<% @reactions.each do |reaction| %>
+<li><h3><a href="/reactions/<%= reaction.id %>"><%= reaction.target_product_name %></a></h3></li>
+<ul>
+<li> <%= reaction.reactants %></li>
+<li> <%= reaction.products %></li>
+<li> <%= reaction.solvent %></li>
+<li> <%= reaction.catalysts %></li>
+<li> <%= reaction.step_number %></li>
+<li> <%= reaction.type_of_reaction %></li>
+<li> <%= reaction.temperature_c %></li>
+<li> <%= reaction.reaction_smiles %></li>
+
+
+</ul><br/>
+
+
+
+ <!-- Render the chemical structure image -->
+<% if reaction.image_path %>
+<%= image_tag(reaction.image_path, alt: 'Chemical Structure', size: '10%') %>
+<% else %>
+  <p>Chemical structure image not available.</p>
+<% end %><br/><br/>
+  
+
+  <button onclick="location.href='/reactions/<%= reaction.id %>/edit'">Edit</button>
+  
+  <form action="/reactions/<%= reaction.id %>" method="POST">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete"/>
+  </form>
+<% end %><br/>
+
+</ol>
+
+  <button onclick="location.href= '/inhibitors/<%= @inhibitor.id%>/reactions/new'">New Reaction</button><br/><br/>
+ <%= link_to "<- Back to home", "/" %>
+
+
+
+
+

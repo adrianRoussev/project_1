@@ -1,0 +1,47 @@
+
+
+<h1>Create Inhibitor for <%= @compound.name %></h1>
+
+<% @proteins.each do |protein| %>
+<label>Select the protein to create an inhibitor for: </label><br/>
+  <select id="proteinlist" name="proteinlist" form="createinhibitor">
+    <% p_id = protein.id %>
+    <option value="<%= p_id %>"><%= protein.title %></option>
+  </select>
+<% end %>
+<br/><br/>
+<form id="createinhibitor" action="" method="post" onsubmit="updateForm()">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <label> Name:</label><br/>
+  <input type="input" name="inhibitor[name]" value="<%= @compound.name %>"><br/><br/>
+
+  <label> Molecular Weight:</label><br/>
+  <input type="input" name="inhibitor[molecular_weight]" value="<%= @compound.molecular_weight %>"><br/><br/>
+
+  <label> Molecular Formula:</label><br/>
+  <input type="input" name="inhibitor[structure]" value="<%= @compound.molecular_formula%>"><br/><br/>
+
+  <label> Molecular Smiles:</label><br/>
+  <input type="input" name="inhibitor[smiles]" value="<%= @compound.smiles%>"><br/><br/>
+
+  <input type="hidden" name="inhibitor[protein_id]" id="selected_protein_id" value=""><br/><br/>
+
+  <input type='submit'/>
+</form>
+
+<script>
+  function updateForm() {
+    var selectedProteinId = document.getElementById('proteinlist').value;
+    document.getElementById('selected_protein_id').value = selectedProteinId;
+    document.getElementById('createinhibitor').action = "/compounds/<%= @compound.id %>/" + selectedProteinId + "/inhibitor";
+  }
+</script>
+
+<br/><br/>
+
+<%= link_to "<- Back To Compounds From '#{@compound.name}' ", "/compounds/#{@compound.id}" %>
+
+
+
+

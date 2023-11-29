@@ -1,0 +1,22 @@
+<h1>Create Compound for Inhibitor <%= @inhibitor.name %></h1>
+
+<form action="/inhibitors/<%= @inhibitor.id %>" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="input" name="compound[molecular_weight]" value="<%= @inhibitor.molecular_weight %>">
+        <input type="input" name="compound[name]" value="<%= @inhibitor.name%>">
+        <input type="input" name="compound[molecular_formula]" value="<%= @inhibitor.structure%>">
+        <input type="input" name="compound[smiles]" value="<%= @inhibitor.smiles%>">
+        <input type="input" name="compound[nucleophiles]" value="<%= "N/A"%>">
+        <input type="input" name="compound[electrophiles]" value="<%= "N/A"%>">
+        <input type="input" name="compound[charge]" value="<%= @inhibitor.charge%>">
+        <input type="input" name="compound[log_p]" value="<%= @inhibitor.x_log_p%>">
+        <input type="input" name="compound[mass_available]" value="<%= "N/A"%>">
+
+             
+  <input type='submit'/>
+</form><br/><br/>
+
+<%= link_to "<- Back To Inhibitors From '#{@inhibitor.name}' ", "/inhibitors/#{@inhibitor.id}" %>
+
+
+ 

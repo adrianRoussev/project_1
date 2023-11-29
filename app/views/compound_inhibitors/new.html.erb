@@ -1,0 +1,31 @@
+<!-- new.html.erb for compound_inhibitors -->
+<form action="/compounds/<%= @compound.id %>/inhibitor" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <!-- Add a hidden field to pass the compound_id -->
+  <input type="hidden" name="compound_id" value="<%= @compound.id %>">
+
+  <label for="inhibitor_name">Inhibitor Name:</label>
+  <input type="text" id="inhibitor_name" name="inhibitor[name]" value="<%= @compound.name %>"><br/>
+
+  <label for="inhibitor_structure">Structure:</label>
+  <input type="text" id="inhibitor_structure" name="inhibitor[structure]"><br/>
+
+  <label for="inhibitor_lipinskis">Lipinskis:</label>
+  <input type="text" id="inhibitor_lipinskis" name="inhibitor[lipinskis]"><br/>
+
+  <label for="inhibitor_target_site">Target Site:</label>
+  <input type="text" id="inhibitor_target_site" name="inhibitor[target_site]"><br/>
+
+  <label for="inhibitor_no_h_donnors">No. of Hydrogen Donors:</label>
+  <input type="text" id="inhibitor_no_h_donnors" name="inhibitor[no_h_donnors]"><br/>
+
+  <label for="inhibitor_no_h_acceptors">No. of Hydrogen Acceptors:</label>
+  <input type="text" id="inhibitor_no_h_acceptors" name="inhibitor[no_h_acceptors]"><br/>
+
+  <label for="inhibitor_no_rotatable_bonds">No. of Rotatable Bonds:</label>
+  <input type="text" id="inhibitor_no_rotatable_bonds" name="inhibitor[no_rotatable_bonds]"><br/>
+
+
+  <input type="submit" value="Create Inhibitor">
+</form>

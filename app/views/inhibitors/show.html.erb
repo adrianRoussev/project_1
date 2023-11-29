@@ -1,6 +1,12 @@
 <h1><%= @inhibitor.name %></h1>
 
-    <p>Chemical Structure : <%= @inhibitor.structure %></p>
+<% if @inhibitor.image_path %>
+  <%= image_tag(@inhibitor.image_path, alt: 'Chemical Structure') %>
+<% else %>
+  <p>Chemical structure image not available.</p>
+<% end %> <br/><br/>
+
+    <p>Structure : <%= @inhibitor.structure %></p>
   
     <p>Chemical Name : <%= @inhibitor.name %></p>
 
@@ -8,7 +14,7 @@
 
     <p> Smiles : <%=@inhibitor.smiles%></p>     
 
-    <p>Binds To:  <%= @inhibitor.protein.title %></p>
+   <p>Binds To: </p>
 
 
 <h1>Compound Properties for <%=@inhibitor.name%></h1>
@@ -16,13 +22,6 @@
 <% if @properties %>
 
 
-<p>Chemical Structure: <%= @inhibitor.structure %></p>
-<p>Lipinski Violation?: <%= @inhibitor.lipinskis %></p>
-<p>Target Site: <%= @inhibitor.target_site %></p>
-<p>No. H-Bond Donnors: <%= @inhibitor.no_h_donnors %></p>
-<p>No. H-Bond Acceptors: <%= @inhibitor.no_h_acceptors %></p>
-<p>No. Rotatable Bonds: <%= @inhibitor.no_rotatable_bonds %></p>
-<p>No. Heavy Atoms: <%= @inhibitor.no_heavy_atoms %></p>
 <p>Smiles: <%= @inhibitor.smiles %></p>
 <p>Molecular Formula: <%= @inhibitor.molecular_formula %></p>
 <p>Molecular Weight: <%= @inhibitor.molecular_weight %></p>
@@ -53,6 +52,8 @@
 <p>Patent Count: <%= @inhibitor.patent_count %></p>
 <p>Patent Family Count: <%= @inhibitor.patent_family_count %></p>
 <p>Literature Count: <%= @inhibitor.literature_count %></p>
+<p>compound: <%= @inhibitor.compounds %></p>
+
 <% else %>
 
   <h2>No properties found for <%= @inhibitor.name %></h2>
@@ -94,20 +95,21 @@
 <p>Patent Count: <%= @inhibitor.patent_count %></p>
 <p>Patent Family Count: <%= @inhibitor.patent_family_count %></p>
 <p>Literature Count: <%= @inhibitor.literature_count %></p>
+
 <% end %>
 
-
-<% if @inhibitor.image_path %>
-  <%= image_tag(@inhibitor.image_path, alt: 'Chemical Structure') %>
-<% else %>
-  <p>Chemical structure image not available.</p>
-<% end %> <br/><br/>
 
 <button onclick="location.href='/inhibitors/<%=@inhibitor.id%>/edit'">Edit</button>
 <br/><br/>
 
+<button onclick="location.href='/inhibitors/<%=@inhibitor.id%>/compoundable'">Create Compoundable</button>
+<br/><br/>
+
+<button onclick="location.href='/inhibitors/<%=@inhibitor.id%>/reactions'"> Reactions</button>
+<br/><br/>
 
 
-<%= link_to "<- Back to list of #{@inhibitor.protein.title} Inhibitors ", "/proteins/#{@inhibitor.protein.id}/inhibitors" %><br/><br/>
+
+<!--<%= link_to "<- Back to list of #{@inhibitor.protein.title} Inhibitors ", "/proteins/#{@inhibitor.protein.id}/inhibitors" %><br/><br/> -->
 
 <%= link_to "<- Back to list of ALL inhibitors", "/inhibitors" %>

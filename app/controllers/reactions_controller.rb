@@ -1,21 +1,35 @@
 class ReactionsController < ApplicationController
         def index
-            @reactions = Reactions.all
+            @reactions = Reaction.all
+            @inhibitor = Inhibitor.find(params[:id])
         end
 
         def new
+          @compounds= Compound.all
+          @inhibitor = Inhibitor.find(params[:inhibitor_id])
+@inhibitor_reactions=@inhibitor.reactions.all
         end
     
         def create
-            reaction_scheme = Reaction.new({
-                number_of_reactions: params[:reaction_scheme][:number_of_reactions],
-                number_of_reatants: params[:reaction_scheme][:number_of_reatants],
-                similar_reaction_schemes: params[:reaction_scheme][:similar_reaction_schemes]
-              })
-          
-            reaction.save
-          
-            redirect_to '/reactions'
+          @compounds= Compound.all
+          @inhibitor = Inhibitor.find(params[:inhibitor_id])
+          @reaction = @inhibitor.reactions.create({
+           reactants: params[:reaction][:reactants],
+           products: params[:reaction][:products],
+           solvent: params[:reaction][:solvent],
+           catalysts: params[:reaction][:catalysts],
+           step_number: params[:reaction][:step_number],
+           temperature_c: params[:reaction][:temperature_c],
+           inhibitor_id: params[:id]
+            })
+            @reaction.save
+            redirect_to "/inhibitors/#{@inhibitor.id}/reactions"
+             
+          end
+
+          def predict_products
+            @reaction = Reaction.find(params[:id])
+
           end
     
           def show
@@ -29,13 +43,15 @@ class ReactionsController < ApplicationController
     
           def update
             @reaction = Reaction.find(params[:id])
-            reaction.update({
-                number_of_reactions: params[:reaction_scheme][:number_of_reactions],
-                number_of_reatants: params[:reaction_scheme][:number_of_reatants],
-                similar_reaction_schemes: params[:reaction_scheme][:similar_reaction_schemes]
+            @reaction.update({
+             
+             solvent: params[:reaction][:solvent],
+             catalysts: params[:reaction][:catalysts],
+             step_number: params[:reaction][:step_number],
+             temperature_c: params[:reaction][:temperature_c]
               })
-              reaction.save
-            redirect_to "/reactions/#{reaction.id}"
+              @reaction.save
+            redirect_to "/inhibitors/:id/reactions"
           end
     
           def destroy

@@ -1,3 +1,48 @@
+# class ProteinInhibitorsController < ApplicationController
+#   def index
+#     @protein = Protein.find(params[:id])
+#     @inhibitors = @protein.inhibitors
+#   end
+
+#   def new
+#     @protein = Protein.find(params[:id])
+#     @inhibitor = Inhibitor.new
+#   end
+
+#   def create
+#     @protein = Protein.find(params[:id])
+#     @inhibitor = @protein.inhibitors.new(inhibitor_params)
+
+#     if @inhibitor.save
+#       python_script_path = Rails.root.join('python_scripts', 'smiles_render.py')
+#       image_file_path = Rails.root.join('public', "#{inhibitor.name}.png")
+
+#       system("python3 #{python_script_path} '#{inhibitor.smiles}' '#{image_file_path}'")
+
+#       @inhibitor.update(image_path: "/#{inhibitor.name}.png")
+
+#       redirect_to "/proteins/#{inhibitor.protein_id}/inhibitors"
+#     else
+#       render :new
+#     end
+#   end
+
+#   def destroy
+#     @inhibitor = Inhibitor.find(params[:id])
+#     @inhibitor.destroy
+#     redirect_to "/proteins/#{protein.id}"
+#   end
+
+#   private
+
+#   def inhibitor_params
+#     params.require(:inhibitor).permit(:name, :structure, :lipinskis, :target_site, :no_h_donnors, :no_h_acceptors, :no_rotatable_bonds, :no_heavy_atoms, :smiles, :molecular_formula, :molecular_weight, :canonical_smiles, :isomeric_smiles, :inchi, :inchi_key, :iupac_name, :title, :x_log_p, :exact_mass, :monoisotopic_mass, :tpsa, :complexity, :charge, :h_bond_donor_count, :h_bond_acceptor_count, :rotatable_bond_count, :heavy_atom_count, :isotope_atom_count, :atom_stereo_count, :defined_atom_stereo_count, :undefined_atom_stereo_count, :bond_stereo_count, :defined_bond_stereo_count, :undefined_bond_stereo_count, :covalent_unit_count, :patent_count, :patent_family_count, :literature_count)
+#   end
+# end
+
+
+
+
 class ProteinInhibitorsController < ApplicationController
   def index
     @protein = Protein.find(params[:id])
@@ -54,7 +99,9 @@ end
       literature_count: params[:inhibitor][:literature_count],
       protein_id: params[:id]
     })
-  
+    
+    # inhibitor.compoundable.update(compoundable_type: 'Inhibitor', compoundable_id: @inhibitor.id)
+
   
 
     python_script_path = Rails.root.join('python_scripts', 'smiles_render.py')
@@ -67,12 +114,12 @@ end
 
      inhibitor.save
       redirect_to "/proteins/#{inhibitor.protein_id}/inhibitors"
+     
    
   end
 
   def destroy
-    Inhibitor.destroy(params[:id])
-    redirect_to "/proteins/#{protein.id}"
+    Inhibitor.destroy(params[:inhibitor_id])
   end
 end
 

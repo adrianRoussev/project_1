@@ -1,3 +1,4 @@
 class Protein < ApplicationRecord
-    has_many :inhibitors
-end
+    has_many :compoundables, as: :compoundable
+  end
+  

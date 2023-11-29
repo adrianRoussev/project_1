@@ -14,9 +14,18 @@
 <li> <%= compound.charge %></li>
 <li> <%= compound.log_p %></li>
 <li> <%= compound.mass_available %></li>
+<li> <%= compound.image_path %></li>
+<li> <%= compound.compoundable %></li>
+
 </ul><br/>
 
- 
+ <!-- Render the chemical structure image -->
+<% if compound.image_path %>
+<%= image_tag(compound.image_path, alt: 'Chemical Structure', size: '10%') %>
+<% else %>
+  <p>Chemical structure image not available.</p>
+<% end %><br/><br/>
+  
 
   <button onclick="location.href='/compounds/<%= compound.id %>/edit'">Edit</button>
   

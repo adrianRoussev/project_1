@@ -1,13 +1,26 @@
+
 <h1>Edit Information For <%= @inhibitor.name %></h1>
 
-<%= form_with url: "/inhibitors/#{@inhibitor.id}", method: "patch", local: true do |form| %>
-  <%= form.label "Chemical Name" %>
-  <%= form.text_field "Chemical Name", value: @inhibitor.name %><br>
-  <%= form.label "Chemical Structure" %>
-  <%= form.text_field "Chemical Structure", value: @inhibitor.structure %>
-  <%= form.label "Target Site" %>
-  <%= form.select "Target Site", [["Active-Site", "active-site"], ["Allosteric Site", "allosteric-site"]], selected: @inhibitor.target_site %>
-  <%= form.label "Smiles" %>
-  <%= form.text_field "Smiles", value: @inhibitor.smiles %>
-  <%= form.submit "Save" %>
-<% end %>
+<form action="/inhibitors/<%= @inhibitor.id %>" method="patch">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="_method" value="PATCH" />
+
+  <label for="name">Name:</label>
+  <input type='text' id='name' name='inhibitor[name]' value="<%= @inhibitor.name %>"/><br/>
+
+  <label for="structure">Structure:</label>
+  <input type='text' id='structure' name='inhibitor[structure]' value="<%= @inhibitor.structure %>"/><br/>
+
+  <label for="smiles">SMILES:</label>
+  <input type='text' id='smiles' name='inhibitor[smiles]' value="<%= @inhibitor.smiles %>"/><br/>
+
+  <label for="target_site">Target Site:</label>
+  <input type='text' id='target_site' name='inhibitor[target_site]' value="<%= @inhibitor.target_site %>"/><br/>
+
+  <label for="protein">Target Protein:</label>
+ 
+
+  <input type='submit'/>
+</form>
+
+<%= link_to "<- Back to home", "/" %>

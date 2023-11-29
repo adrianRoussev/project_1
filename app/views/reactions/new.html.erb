@@ -1,0 +1,99 @@
+<h1>Add details for new reaction</h1>
+
+
+
+  
+  <select hidden id="compoundlistproduct" name="reaction[products][]" form="createreaction">
+   <% @compounds.each do |compound| %>
+    <option value=<%= compound.smiles %>><%= compound.name %></option>
+    <% end %>
+  </select><br/><br/>
+
+  <label>Select a compound to add as a reactant: </label><br/>
+  <select hidden id="compoundlistreactant"  name="reaction[reactants][]" form="createreaction">
+   <% @compounds.each do |compound| %>
+   <%c_sm = compound.smiles%>
+    <option value="<%= c_sm %>"><%= compound.name %></option>
+    <% end %>
+  </select><br/><br/>
+
+<form action="/inhibitors/<%=@inhibitor.id%>/reactions" name="createreaction" method="post">
+
+    <label>Add a reactant then select its value from the list of compounds:  </label><br/>
+        
+        <div  id="reactants-container">
+        </div><br/><br/>
+
+            <input type="button" value="Add Reactant" id="add-reactant-btn"><br/><br/>
+
+
+    <label>Add product reactant then select its value from the list of compounds:  </label><br/>
+    
+        <div id="products-container">
+        </div><br/><br/>
+
+            <input type="button" value="Add Product" id="add-product-btn"><br/><br/>
+
+ 
+    <label>Solvent: </label><br/>
+        <input type="input" name="reaction[solvent]" ><br/><br/>
+
+    <label>Step number: </label><br/>
+        <input type="input" name="reaction[step_number]" value="<%= @inhibitor_reactions.count + 1 %>"><br/><br/>
+
+    <label>Temperature (degrees C): </label><br/>
+        <input type="input" name="reaction[temperature_c]" ><br/><br/>
+
+
+    <input type="submit" value="Submit">
+
+</form><br/><br/>
+
+
+<script>
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const container = document.getElementById("reactants-container");
+  const addButton = document.getElementById("add-reactant-btn");
+  const compoundListReactant = document.getElementById("compoundlistreactant");
+
+
+
+  addButton.addEventListener("click", function(e) {
+    e.preventDefault();
+    
+    const newSelect = document.createElement("select");
+    newSelect.name = "reaction[reactants][]";
+    
+    newSelect.innerHTML = compoundListReactant.innerHTML;
+    
+    
+    container.appendChild(newSelect);
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  const container = document.getElementById("products-container");
+  const addButton = document.getElementById("add-product-btn");
+
+  addButton.addEventListener("click", function(e) {
+    e.preventDefault();
+    
+    const newSelect = document.createElement("select");
+    newSelect.name = "reaction[products][]";
+    
+    const compoundListProduct = document.getElementById("compoundlistproduct");
+    newSelect.innerHTML = compoundListProduct.innerHTML;
+
+    container.appendChild(newSelect);
+  });
+});
+
+</script>
+
+
+<%= link_to "<- Back to home", "/" %>
+
+
+

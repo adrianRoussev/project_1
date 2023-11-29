@@ -1,26 +1,40 @@
 <h1>Edit Information For <%= @compound.name %></h1>
 
-<%= form_with url: "/compounds/#{@compound.id}", method: "patch", local: true do |form| %>
-  <%= form.label "Chemical Name" %>
-  <%= form.text_field "name", value: @compound.name %>
-  <%= form.label "molecular_formula" %>
-  <%= form.text_field "molecular_formula", value: @compound.molecular_formula %>
-  <%= form.label "smiles" %>
-  <%= form.text_field "smiles", value: @compound.smiles %>
-<%= form.label "molecular_weight" %>
-  <%= form.text_field "molecular_weight", value: @compound.molecular_weight %>
-<%= form.label "nucleophiles" %>
-  <%= form.text_field "nucleophiles", value: @compound.nucleophiles %>
-<%= form.label "electrophiles" %>
-  <%= form.text_field "electrophiles", value: @compound.electrophiles %>
-<%= form.label "charge" %>
-  <%= form.text_field "charge", value: @compound.charge %>
-<%= form.label "log_p" %>
-  <%= form.text_field "log_p", value: @compound.log_p %>
-<%= form.label "mass_available" %>
-  <%= form.text_field "mass_available", value: @compound.mass_available %>
+<form action="/compounds/<%= @compound.id %>" method="patch">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="_method" value="PATCH" />
 
-  <%= form.submit "Save" %>
-<% end %><br/>
+
+  
+  <label for="name">Name:</label>
+  <input type='text' id='name' name='compound[name]' value="<%= @compound.name %>"/><br/>
+
+  <label for="molecular_formula">Molecular Formula:</label>
+  <input type='text' id='molecular_formula' name='compound[molecular_formula]' value="<%= @compound.molecular_formula %>"/><br/>
+
+  <label for="smiles">SMILES:</label>
+  <input type='text' id='smiles' name='compound[smiles]' value="<%= @compound.smiles %>"/><br/>
+
+  <label for="molecular_weight">Molecular Weight:</label>
+  <input type='text' id='molecular_weight' name='compound[molecular_weight]' value="<%= @compound.molecular_formula %>"/><br/>
+
+  <label for="nucleophiles">Nucleophiles:</label>
+  <input type='text' id='nucleophiles' name='compound[nucleophiles]' value="<%= @compound.nucleophiles %>"/><br/>
+
+  <label for="electrophiles">Electrophiles:</label>
+  <input type='text' id='electrophiles' name='compound[electrophiles]' value="<%= @compound.electrophiles %>"/><br/>
+
+ <label for="electrophiles">Charge:</label>
+  <input type='text' id='charge' name='compound[charge]' value="<%= @compound.charge %>"/><br/>
+
+
+  <label for="log_p">Log P:</label>
+  <input type='text' id='log_p' name='compound[log_p]' value="<%= @compound.log_p %>"/><br/>
+
+  <label for="mass_available">Mass Available:</label>
+  <input type='text' id='mass_available' name='compound[mass_available]' value="<%= @compound.mass_available %>"/><br/>
+
+  <input type='submit'/>
+</form>
 
 <%= link_to "<- Back to home", "/" %>

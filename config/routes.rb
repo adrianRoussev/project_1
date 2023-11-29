@@ -21,6 +21,10 @@ Rails.application.routes.draw do
   post "/proteins/:id/inhibitors", to: "protein_inhibitors#create"
   get "/inhibitors/:id/edit", to: "inhibitors#edit"
   patch "/inhibitors/:id", to: "inhibitors#update"
+  get "inhibitors/:id/compoundable", to: "inhibitors#new_compoundable"
+  post "/inhibitors/:id", to: "inhibitors#create_compoundable"
+  get "/inhibitors/:id/reactions", to: "reactions#index"
+
   get "/proteins/:id/inhibitors", to: "protein_inhibitors#index"
   delete "/inhibitors/:id", to: "inhibitors#destroy"
   get "/compounds", to: "compounds#index"
@@ -30,4 +34,17 @@ Rails.application.routes.draw do
   get '/compounds/:id/edit', to: 'compounds#edit'
   patch '/compounds/:id', to: 'compounds#update'
   delete '/compounds/:id', to: 'compounds#destroy'
+  get "/compounds/:id/inhibitor/new", to: "compounds#new_inhibitor"
+  post "/compounds/:id/:protein_id/inhibitor", to: "compounds#create_inhibitor"
+
+  get "/reactions", to: "reactions#index"
+  get "/reactions/:id", to: "reactions#show"
+  get "/inhibitors/:inhibitor_id/reactions/new", to: "reactions#new"
+  post "/inhibitors/:inhibitor_id/reactions", to: "reactions#create"
+  post "/reactions/predict", to: "reactions#predict"
+  get "/reactions/:id", to: "reactions#show"
+  get '/reactions/:id/edit', to: 'reactions#edit'
+  patch '/reactions/:id', to: 'reactions#update'
+  delete '/reactions/:id', to: 'reactions#destroy'
+
 end

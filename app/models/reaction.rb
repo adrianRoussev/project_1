@@ -1,16 +1,19 @@
 class Reaction < ApplicationRecord
-    has_many :products, through: :compounds
-    has_many :reactants, through: :compounds
-
-    def join_compounds(*smiles)
-      rxn_compounds = smiles.join(".")
-      rxn_compounds
-    end
+    has_many :compounds
+    belongs_to :inhibitor
 
     def create_reaction(products, reactants, catalysts)
-      reaction = "#{products_str}>#{catalysts}>#{reactants_str}"
+        products_str = products.
+      reaction = "#{products_str}>#{catalysts_str}>#{reactants_str}"
       reaction
     end
-end
 
+private 
+
+def join_smiles(*smiles)
+   compound_str = smiles.join(".")
+   compound_str
+  end
+
+end
 

@@ -1,12 +1,39 @@
 <h1>Add details for new compound</h1>
 <form action="/compounds" method="post">
 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  
   <p>Enter the compound name and SMILES:</p><br/>
+  
   <p>Compound Name: </p>
   <input type='text' name='compound[name]'/><br/>
+   
    <p>SMILES: </p>
-  <input type='text' name='compound[smiles]'/><br/><br/>
+  <input type='text' name='compound[smiles]'/><br/>
+
+   <p>Molecular Formula: </p>
+  <input type='text' name='compound[molecular_formula]'/><br/>
+  
+  <p>Molecular Weight: </p>
+  <input type='text' name='compound[molecular_weight]'/><br/>
+
+  <p>Nucleophiles: </p>
+  <input type='text' name='compound[nucleophiles]'/><br/>
+
+  <p>Electrophiles: </p>
+  <input type='text' name='compound[electrophiles]'/><br/>
+
+  <p>Charge: </p>
+  <input type='text' name='compound[charge]'/><br/>
+
+<p>Log P: </p>
+  <input type='text' name='compound[log_p]'/><br/>
+
+<p>Mass Available: </p>
+  <input type='text' name='compound[mass_available]'/><br/>
+
+
   <input type='submit'/>
+
 </form><br/>
 
 <%= link_to "<- Back to home", "/" %>

@@ -1,13 +1,16 @@
 
     # require 'pycall/import'
-
     class Inhibitor < ApplicationRecord
       belongs_to :protein
-      has_one :compoundable, as: :compoundable
-      has_many :reaction_schemes 
-    
-    
+      include Compoundable
+      has_many :reactions
+  
+   
+
       def create_or_update_from_csv_data(csv_data_parsed, inhibitor)
+       if csv_data_parsed == nil 
+       nil
+       else 
         csv_data_parsed.each do |row|
           inhibitor.assign_attributes({
             cid: row['CID'],
@@ -43,6 +46,7 @@
           })
     
           inhibitor.save
+          end
         end
       end
     end
