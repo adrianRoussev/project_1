@@ -54,17 +54,24 @@ class ReactionsController < ApplicationController
             redirect_to "/inhibitors/#{@inhibitor.id}/reactions"
             ################
 
-            
+
           end
 
           def predict_products
             @reaction = Reaction.find(params[:id])
-
+              
+            reactants= ["NC(=S)N(C)C", "[Cl]CC(=O)c1ccccc1"]
+            rxn ="[NH2:1][C:2](=[S:3])[NH0:4].[C:5](=[O:6])[C:7][Cl:8]>>[N:4][c:2]1[s:3][c:5][c:7][n:1]1"
+          
+            @generated_products = RdkitService.get_predicted_products(reactants, rxn)
           end
     
           def show
             @reaction = Reaction.find(params[:id])
-        
+            reactants= ["NC(=S)N(C)C", "[Cl]CC(=O)c1ccccc1"]
+            rxn ="[NH2:1][C:2](=[S:3])[NH0:4].[C:5](=[O:6])[C:7][Cl:8]>>[N:4][c:2]1[s:3][c:5][c:7][n:1]1"
+          
+            @generated_products = RdkitService.get_predicted_products(reactants, rxn)
           end
     
           def edit

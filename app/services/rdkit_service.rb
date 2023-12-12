@@ -36,31 +36,41 @@ class RdkitService
         end
     end
 
-    # def self.get_raw_rdkit_data(smiles)
 
-    #     begin response = HTTParty.post('http://localhost:5000/get_molecule_params', body: { smiles: smiles }.to_json, headers: { 'Content-Type' => 'application/json' })
+    def self.get_predicted_products(reactants, rxn)
+
+        begin response = HTTParty.post('http://localhost:6000/get_rxn_products', body: { reactants: reactants, rxn: rxn}.to_json, headers: { 'Content-Type' => 'application/json' })
     
-    #     rescue URI::InvalidURIError
-    #             nil
+        rescue URI::InvalidURIError
+                nil
         
-    #     return response
+        return response
 
-    #     end 
+        end 
 
-    #     if response.code == 200
+        if response.code == 200
 
-    #         rdkit_data_raw = response.body
-    #         rdkit_data_string= rdkit_data_string
-    #         puts "Received molecule parameters: #{rdkit_data_raw}"
-    #         return rdkit_data_string
+            rdkit_products_raw = response.body
+            puts "Received products: #{rdkit_products_raw}"
 
-    #     else
-
-    #         puts "Error: #{response.code}, #{response.body}"
+            if rdkit_products_raw.present?
+   
+                products_parsed = JSON.parse(rdkit_products_raw, headers: true)
+                puts "Parsed predicted products: #{products_parsed}"
+                return products_parsed
         
-    #     end
-    # end
+            else
+        
+                return nil
 
+            end
+
+        else
+
+            puts "Error: #{response.code}, #{response.body}"
+        
+        end
+    end
 
 end
 

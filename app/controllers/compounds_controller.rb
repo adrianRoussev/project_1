@@ -114,12 +114,14 @@ class CompoundsController < ApplicationController
         #   Currently in a reaction we are creating types belonging to the compound and where
         #   types cannot be changed
         #  
-        #   *questions*  1. Should we be creating the types in the reverse? ie. compound belonging to the type? 
+        #   *questions*  1. Should we be creating the types in the reverse? ie. compound belonging to the type? No, a single compound can belong to only one type at a time where as a compound can have multiple
         #                2. should both be an option? 
         #   currently for Reaction, we create types using a compound ID ie. Parent: Compound, Child: Type, Type has a compound ID
         #   
-        #   could we instead just assign the compondable type and create 
-
+        #   could we instead just assign the compondable type ? we can clone the compound then have the 'same' compound have different associations however it seems like the first option is better
+        #   we should keep the polymorphic association in order to be able to create compounds from type ie. compound has type id and from that we can pull info from the type and create a compound specifically associated with that 
+        #   Use-case ex/ you write a single reaction but then preform the same reaction with different conformations etc. can create multiple specific compounds for that reactant
+        
         def create_inhibitor
           compound = Compound.find(params[:id])
           protein = Protein.find(params[:protein_id])
@@ -167,7 +169,6 @@ class CompoundsController < ApplicationController
 inhibitor.save
 
 compound.update(compoundable: inhibitor)
-    # inhibitor.compoundable.update(compoundable_type: 'Inhibitor', compoundable_id: @inhibitor.id)
 
           
         end
