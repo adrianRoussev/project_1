@@ -1,4 +1,6 @@
 class Reactant < ApplicationRecord
   include Compoundable
-      has_many :reactions
+      belongs_to :reaction
+      belongs_to :compound
+
   end

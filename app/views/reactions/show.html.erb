@@ -1,1 +1,107 @@
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid rgb(229, 231, 233) ;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: rgb(166, 172, 175 );
+}
+</style>
+
+<h1>Details for reaction #<%= @reaction.step_number %> for <%= @reaction.inhibitor.name%></h1>
+
+<% if @reaction.image_path %>
+<%= image_tag(@reaction.image_path, alt: 'Chemical Structure', size: '10%') %>
+<% else %>
+  <p>Chemical structure image not available.</p>
+<% end %><br/><br/>
+
+<table>
+
+<thead>
+Reaction Parameters:
+</thead>
+<tr>
+
+    <th>Solvent</th>
+    <td> <%=@reaction.solvent%> </td>
+
+</tr>
+
+<tr>
+    <th>Type of Reaction</th>
+    <td> <%=@reaction.type_of_reaction%> </td>
+</tr> 
+
+<tr>
+    <th>Reaction Smiles</th>
+    <td> <%=@reaction.reaction_smiles%> </td>
+</tr> 
+
+<tr>
+    <th>Image Path</th>
+    <td> <%=@reaction.image_path%> </td>
+</tr> 
+
+</table><br/><br/>
+
+
+<table>
+<thead>
+Compound Parameters:
+</thead>
+<tr>
+    <th> </th>
+    <th>Compound</th>
+    <th>Mass Used</th>
+    <th>Mol</th>
+    <th>Equivalents</th>
+    <th>Yeild</th>
+
+  </tr>
+<% @reaction.reactants.each do |reactant| %>
+  <tr>
+   <th>Reactant</th>
+    <td><%= reactant.compound.smiles %></td>
+    <td><%= reactant.mass_used %></td>
+    <td>-mol-</td>
+    <td>-eq-</td>
+    <td>-</td>
+  </tr>
+<%end%>
+
+ <% @reaction.catalysts.each do |catalyst| %>
+  <tr>
+   <th>Catalyst</th>
+    <td><%= catalyst.compound.smiles %></td>
+    <td><%= catalyst.mass_used %></td>
+    <td>-mol-</td>
+    <td>-eq-</td>
+    <td>-</td>
+  </tr>
+
+<%end%>
+
+<% @reaction.products.each do |product| %>
+  <tr>
+    <th>Product</th>
+    <td><%= product.compound.smiles %></td>
+    <td>-</td>
+    <td>-mol-</td>
+    <td>-eq-</td>
+    <td><%= product.actual_yeild %></td>
+  </tr>
+<%end%>
+
+</table> <br/><br/>
+
+
   <button onclick="location.href='/reactions/<%= @reaction.id %>/predict'"> Predict Products</button><br/><br/>

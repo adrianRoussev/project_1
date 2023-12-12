@@ -1,25 +1,25 @@
 
-<h1>All reactions</h1>
+<h1>All reactions for <%= @inhibitor.name %></h1>
 
 <ol>
 <% @reactions.each do |reaction| %>
-<li><h3><a href="/reactions/<%= reaction.id %>"><%= reaction.target_product_name %></a></h3></li>
+<li><h3><a href="/reactions/<%= reaction.id %>"><%= reaction.products %></a></h3></li>
 <ul>
-<li> <%= reaction.reactants %></li>
-<li> <%= reaction.products %></li>
-<li> <%= reaction.solvent %></li>
-<li> <%= reaction.catalysts %></li>
-<li> <%= reaction.step_number %></li>
-<li> <%= reaction.type_of_reaction %></li>
-<li> <%= reaction.temperature_c %></li>
-<li> <%= reaction.reaction_smiles %></li>
+<li> Reactants(listed by smiles): <%= reaction.get_smiles_array(reaction.reactants) %> <br/> Mass Used: <%= reaction.get_compound_quantity(reaction.reactants)%> </li><br/>
+<li> Products(listed by smiles):<%=  reaction.get_smiles_array(reaction.products) %> <br/> Product Yeild: <%= reaction.get_compound_quantity(reaction.products)%></li><br/>
+<li> Catalysts(listed by smiles): <%=  reaction.get_smiles_array(reaction.catalysts)%> <br/> Mass Used: <%= reaction.get_compound_quantity(reaction.catalysts)%></li> <br/>
+<li> <%= reaction.solvent %></li> <br/>
+<li> <%= reaction.step_number %></li> <br/>
+<li> <%= reaction.type_of_reaction %></li><br/>
+<li> <%= reaction.temperature_c %></li> <br/>
+<li> <%= reaction.reaction_smiles %></li> <br/>
+<li> <%= reaction.image_path %></li> 
 
 
 </ul><br/>
 
 
 
- <!-- Render the chemical structure image -->
 <% if reaction.image_path %>
 <%= image_tag(reaction.image_path, alt: 'Chemical Structure', size: '10%') %>
 <% else %>

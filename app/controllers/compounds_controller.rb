@@ -1,65 +1,103 @@
+require 'json'
+
 class CompoundsController < ApplicationController
     def index
         @compounds = Compound.all
+
     end
 
     def new
     end
    
     def create
-      inhibitor = Inhibitor.create
+      # inhibitor = Inhibitor.create
       compound = Compound.create({
-        compoundable: inhibitor, 
+        # compoundable: inhibitor, 
         name: params[:compound][:name],
-        molecular_weight: params[:compound][:molecular_weight],
         molecular_formula: params[:compound][:molecular_formula],
         smiles: params[:compound][:smiles],
         nucleophiles: params[:compound][:nucleophiles],
         electrophiles: params[:compound][:electrophiles],
         charge: params[:compound][:charge],
         log_p: params[:compound][:log_p],
-        mass_available: params[:compound][:mass_available]
+        mass_available: params[:compound][:mass_available],
+        molwt: params[:compound][:molwt]
+
       })
-              compound.image_path = "/#{compound.name}.png"
-        compound.save
+      compound.image_path = "/#{compound.name}.png"
+      compound.get_params_from_rdkit(@molecular_params, compound)
+
+      compound.save
+
+      python_script_path = Rails.root.join('python_scripts', 'smiles_render.py')
+      image_file_path = Rails.root.join('public', "#{compound.name}.png")
+        
+      system("python3 #{python_script_path} '#{compound.smiles}' '#{image_file_path}'")
+            
+      compound.update(image_path: "/#{compound.name}.png")
       
-        redirect_to '/compounds'
+      compound.save
+            
+      redirect_to '/compounds'
       end
 
       def show
         @compound = Compound.find(params[:id])
+        
+        @compound.get_params_from_rdkit(@molecular_params, @compound)
+
+        @compound.save
+
       end
 
       def edit
         @compound = Compound.find(params[:id])
+        @molecular_params = RdkitService.get_rdkit_params(@compound.smiles)
+
+        @value = @compound.get_value_from_rdkit(@molecular_params)
+     
+
       end
 
       def update
-          compound = Compound.find(params[:id])
-          compound.update({ 
+          @compound = Compound.find(params[:id])
+          inhibitor = Inhibitor.create
+           @compound.update({ 
+            compoundable: inhibitor,
             name: params[:compound][:name],
-            molecular_weight: params[:compound][:molecular_weight],
             molecular_formula: params[:compound][:molecular_formula],
             smiles: params[:compound][:smiles],
             nucleophiles: params[:compound][:nucleophiles],
             electrophiles: params[:compound][:electrophiles],
             charge: params[:compound][:charge],
             log_p: params[:compound][:log_p],
-            mass_available: params[:compound][:mass_available]
+            mass_available: params[:compound][:mass_available],
+            molwt: params[:compound][:molwt]
+            
           })
-          compound.image_path = "/#{compound.name}.png"
-          compound.save
-            redirect_to "/compounds"
+          @compound.save
+
+         
+          
+          
+
+          @compound.image_path = "/#{@compound.name}.png"
+          @compound.save
+            
 
             python_script_path = Rails.root.join('python_scripts', 'smiles_render.py')
-            image_file_path = Rails.root.join('public', "#{compound.name}.png")
+            image_file_path = Rails.root.join('public', "#{@compound.name}.png")
         
-            system("python3 #{python_script_path} '#{compound.smiles}' '#{image_file_path}'")
-        
-            compound.update(image_path: "/#{compound.name}.png")
-        
-            compound.save
+            system("python3 #{python_script_path} '#{@compound.smiles}' '#{image_file_path}'")
+            
+            @compound.update(image_path: "/#{@compound.name}.png")
+            @compound.save
 
+
+            redirect_to '/compounds', notice: 'Compound was successfully updated.'
+
+        
+           
         end
 
 
@@ -68,6 +106,19 @@ class CompoundsController < ApplicationController
           @compound = Compound.find(params[:id])
     
         end
+
+        #   create an inhibitor then set the compound to belong to THAT SPECIFIC inhibitor
+        #   note:- a polymorphic compound belonging to an inhibitor can change its type and 
+        #          become the child of a different type 
+        #        - a certain type that belongs to a compound cannot
+        #   Currently in a reaction we are creating types belonging to the compound and where
+        #   types cannot be changed
+        #  
+        #   *questions*  1. Should we be creating the types in the reverse? ie. compound belonging to the type? 
+        #                2. should both be an option? 
+        #   currently for Reaction, we create types using a compound ID ie. Parent: Compound, Child: Type, Type has a compound ID
+        #   
+        #   could we instead just assign the compondable type and create 
 
         def create_inhibitor
           compound = Compound.find(params[:id])
@@ -116,6 +167,7 @@ class CompoundsController < ApplicationController
 inhibitor.save
 
 compound.update(compoundable: inhibitor)
+    # inhibitor.compoundable.update(compoundable_type: 'Inhibitor', compoundable_id: @inhibitor.id)
 
           
         end

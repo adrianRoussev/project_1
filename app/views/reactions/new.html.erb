@@ -4,16 +4,32 @@
 
   
   <select hidden id="compoundlistproduct" name="reaction[products][]" form="createreaction">
-   <% @compounds.each do |compound| %>
-    <option value=<%= compound.smiles %>><%= compound.name %></option>
+    <% @compounds.each do |compound| %>
+      
+      <%c_sm = compound.smiles%>
+      <%c_id = compound.id%>
+   
+      <option value=<%= c_id %> ><%= compound.name %></option>
+
     <% end %>
   </select><br/><br/>
 
-  <label>Select a compound to add as a reactant: </label><br/>
-  <select hidden id="compoundlistreactant"  name="reaction[reactants][]" form="createreaction">
+  <select hidden id="compoundlistreactant" name="reaction[reactants][]" form="createreaction">
+    <% @compounds.each do |compound| %>
+    
+      <%c_sm = compound.smiles%>
+      <%c_id = compound.id%>
+   
+      <option value=<%= c_id %> ><%= compound.name %></option>
+   
+    <% end %>
+  </select><br/><br/>
+
+  <select hidden id="compoundlistcatalyst"  name="reaction[catalysts][]," form="createreaction">
    <% @compounds.each do |compound| %>
    <%c_sm = compound.smiles%>
-    <option value="<%= c_sm %>"><%= compound.name %></option>
+   <%c_id = compound.id%>
+      <option value=<%= c_id %> ><%= compound.name %></option>
     <% end %>
   </select><br/><br/>
 
@@ -27,14 +43,22 @@
             <input type="button" value="Add Reactant" id="add-reactant-btn"><br/><br/>
 
 
-    <label>Add product reactant then select its value from the list of compounds:  </label><br/>
+    <label>Add a product then select its value from the list of compounds:  </label><br/>
     
         <div id="products-container">
         </div><br/><br/>
 
-            <input type="button" value="Add Product" id="add-product-btn"><br/><br/>
+    
+    <input type="button" value="Add Product" id="add-product-btn"><br/><br/>
 
- 
+ <label>Add a catalyst then select its value from the list of compounds:  </label><br/>
+    
+        <div id="catalysts-container">
+        </div><br/><br/>
+
+            <input type="button" value="Add Catalyst" id="add-catalyst-btn"><br/><br/>
+
+
     <label>Solvent: </label><br/>
         <input type="input" name="reaction[solvent]" ><br/><br/>
 
@@ -85,6 +109,23 @@ document.addEventListener("DOMContentLoaded", function() {
     
     const compoundListProduct = document.getElementById("compoundlistproduct");
     newSelect.innerHTML = compoundListProduct.innerHTML;
+
+    container.appendChild(newSelect);
+  }); 
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  const container = document.getElementById("catalysts-container");
+  const addButton = document.getElementById("add-catalyst-btn");
+
+  addButton.addEventListener("click", function(e) {
+    e.preventDefault();
+    
+    const newSelect = document.createElement("select");
+    newSelect.name = "reaction[catalysts][]";
+    
+    const compoundListCatalyst = document.getElementById("compoundlistcatalyst");
+    newSelect.innerHTML = compoundListCatalyst.innerHTML;
 
     container.appendChild(newSelect);
   });

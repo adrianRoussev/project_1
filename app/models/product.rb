@@ -1,5 +1,6 @@
 class Product < ApplicationRecord
   include Compoundable
-    has_many :reactions
-  end
+    belongs_to :reaction
+    belongs_to :compound
+end
   

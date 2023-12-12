@@ -1,5 +1,15 @@
 <%# compounds show page %>
 <h3>Chemical Name: <%= @compound.name %></h3>
+      <!-- Render the chemical structure image -->
+
+<% if @compound.image_path %>
+<%= image_tag(@compound.image_path, alt: 'Chemical Structure', size: '10%') %>
+<% else %>
+  <p>Chemical structure image not available.</p>
+<% end %><br/><br/>
+
+  <button onclick="location.href='/compounds/<%= @compound.id %>/inhibitor/new'"> Make a copy as 'Inhibitor' type</button><br/><br/>
+
 
 <ul>
       <li>Molecular Formula: <%= @compound.molecular_formula %></li><br/>
@@ -10,17 +20,240 @@
       <li> Log P: <%=@compound.log_p %></li><br/>
       <li> Mass Available: <%=@compound.mass_available%></li><br/>
       <li> Type: <%=@compound.compoundable_type%></li><br/>
+      <li> MolWT: <%=@compound.molwt%></li><br/>
+      <li> Compoundable: <%=@compound.compoundable%></li><br/>
+      <li> Compoundable ID: <%=@compound.compoundable_id%></li>
+       <li>Molecular Weight: <%= @compound.molecular_weight %></li>
+  <li>Molecular Formula: <%= @compound.molecular_formula %></li>
+  <li>SMILES: <%= @compound.smiles %></li>
+  <li>Nucleophiles: <%= @compound.nucleophiles %></li>
+  <li>Electrophiles: <%= @compound.electrophiles %></li>
+  <li>Charge: <%= @compound.charge %></li>
+  <li>Log P: <%= @compound.log_p %></li>
+  <li>Mass Available: <%= @compound.mass_available %></li>
+  <li>Name: <%= @compound.name %></li>
+  <li>Created At: <%= @compound.created_at %></li>
+  <li>Updated At: <%= @compound.updated_at %></li>
+  <li>Image Path: <%= @compound.image_path %></li>
+  <li>Compound Type: <%= @compound.compound_type %></li>
+  <li>Compoundable Type: <%= @compound.compoundable_type %></li>
+  <li>Compoundable ID: <%= @compound.compoundable_id %></li>
+  <li>Molecular Params: <%= @compound.molecular_params %></li>
+  <li>AvgIPC: <%= @compound.avgipc %></li>
+  <li>BCUT2D_CHGHI: <%= @compound.bcut2d_chghi %></li>
+  <li>BCUT2D_CHGLO: <%= @compound.bcut2d_chglo %></li>
+  <li>BCUT2D_LOGPHI: <%= @compound.bcut2d_logphi %></li>
+  <li>BCUT2D_LOGPLOW: <%= @compound.bcut2d_logplow %></li>
+  <li>BCUT2D_MRHI: <%= @compound.bcut2d_mrhi %></li>
+  <li>BCUT2D_MWLOW: <%= @compound.bcut2d_mwlow %></li>
+  <li>Balabanj: <%= @compound.balabanj %></li>
+  <li>Bertzct: <%= @compound.bertzct %></li>
+  <li>Chi0: <%= @compound.chi0 %></li>
+  <li>Chi0n: <%= @compound.chi0n %></li>
+  <li>Chi0v: <%= @compound.chi0v %></li>
+  <li>Chi1: <%= @compound.chi1 %></li>
+  <li>Chi1n: <%= @compound.chi1n %></li>
+  <li>Chi1v: <%= @compound.chi1v %></li>
+  <li>Chi2n: <%= @compound.chi2n %></li>
+  <li>Chi2v: <%= @compound.chi2v %></li>
+  <li>Chi3n: <%= @compound.chi3n %></li>
+  <li>Chi3v: <%= @compound.chi3v %></li>
+  <li>Chi4n: <%= @compound.chi4n %></li>
+  <li>Chi4v: <%= @compound.chi4v %></li>
+  <li>Estate VSA1: <%= @compound.estate_vsa1 %></li>
+  <li>Estate VSA10: <%= @compound.estate_vsa10 %></li>
+  <li>Estate VSA11: <%= @compound.estate_vsa11 %></li>
+  <li>Estate VSA2: <%= @compound.estate_vsa2 %></li>
+  <li>Estate VSA3: <%= @compound.estate_vsa3 %></li>
+  <li>Estate VSA4: <%= @compound.estate_vsa4 %></li>
+  <li>Estate VSA5: <%= @compound.estate_vsa5 %></li>
+  <li>Estate VSA6: <%= @compound.estate_vsa6 %></li>
+  <li>Estate VSA7: <%= @compound.estate_vsa7 %></li>
+  <li>Estate VSA8: <%= @compound.estate_vsa8 %></li>
+  <li>Estate VSA9: <%= @compound.estate_vsa9 %></li>
+  <li>Exactmolwt: <%= @compound.exactmolwt %></li>
+  <li>FPdensitymorgan1: <%= @compound.fpdensitymorgan1 %></li>
+  <li>FPdensitymorgan2: <%= @compound.fpdensitymorgan2 %></li>
+  <li>FPdensitymorgan3: <%= @compound.fpdensitymorgan3 %></li>
+  <li>Fractioncsp3: <%= @compound.fractioncsp3 %></li>
+  <li>Hallkieralpha: <%= @compound.hallkieralpha %></li>
+  <li>Heavyatomcount: <%= @compound.heavyatomcount %></li>
+  <li>Heavyatommolwt: <%= @compound.heavyatommolwt %></li>
+  <li>IPC: <%= @compound.ipc %></li>
+  <li>Kappa1: <%= @compound.kappa1 %></li>
+  <li>Kappa2: <%= @compound.kappa2 %></li>
+  <li>Kappa3: <%= @compound.kappa3 %></li>
+  <li>Labuteasa: <%= @compound.labuteasa %></li>
+  <li>Maxabsestateindex: <%= @compound.maxabsestateindex %></li>
+  <li>Maxabspartialcharge: <%= @compound.maxabspartialcharge %></li>
+  <li>Maxestateindex: <%= @compound.maxestateindex %></li>
+  <li>Maxpartialcharge: <%= @compound.maxpartialcharge %></li>
+  <li>Minabsestateindex: <%= @compound.minabsestateindex %></li>
+  <li>Minabspartialcharge: <%= @compound.minabspartialcharge %></li>
+  <li>Minestateindex: <%= @compound.minestateindex %></li>
+  <li>Minpartialcharge: <%= @compound.minpartialcharge %></li>
+  <li>Mollogp: <%= @compound.mollogp %></li>
+  <li>Molmr: <%= @compound.molmr %></li>
+  <li>Molwt: <%= @compound.molwt %></li>
+  <li>Nhohcount: <%= @compound.nhohcount %></li>
+  <li>Nocount: <%= @compound.nocount %></li>
+  <li>Numaliphaticcarbocycles: <%= @compound.numaliphaticcarbocycles %></li>
+  <li>Numaliphaticheterocycles: <%= @compound.numaliphaticheterocycles %></li>
+  <li>Numaliphaticrings: <%= @compound.numaliphaticrings %></li>
+  <li>Numaromaticcarbocycles: <%= @compound.numaromaticcarbocycles %></li>
+  <li>Numaromaticheterocycles: <%= @compound.numaromaticheterocycles %></li>
+  <li>Numaromaticrings: <%= @compound.numaromaticrings %></li>
+  <li>Numhacceptors: <%= @compound.numhacceptors %></li>
+  <li>Numhdonors: <%= @compound.numhdonors %></li>
+  <li>Numheteroatoms: <%= @compound.numheteroatoms %></li>
+  <li>Numradicalelectrons: <%= @compound.numradicalelectrons %></li>
+  <li>Numrotatablebonds: <%= @compound.numrotatablebonds %></li>
+  <li>Numsaturatedcarbocycles: <%= @compound.numsaturatedcarbocycles %></li>
+  <li>Numsaturatedheterocycles: <%= @compound.numsaturatedheterocycles %></li>
+  <li>Numsaturatedrings: <%= @compound.numsaturatedrings %></li>
+  <li>Numvalenceelectrons: <%= @compound.numvalenceelectrons %></li>
+  <li>Peoe VSA1: <%= @compound.peoe_vsa1 %></li>
+  <li>Peoe VSA10: <%= @compound.peoe_vsa10 %></li>
+  <li>Peoe VSA11: <%= @compound.peoe_vsa11 %></li>
+  <li>Peoe VSA12: <%= @compound.peoe_vsa12 %></li>
+  <li>Peoe VSA13: <%= @compound.peoe_vsa13 %></li>
+  <li>Peoe VSA14: <%= @compound.peoe_vsa14 %></li>
+  <li>Peoe VSA2: <%= @compound.peoe_vsa2 %></li>
+  <li>Peoe VSA3: <%= @compound.peoe_vsa3 %></li>
+  <li>Peoe VSA4: <%= @compound.peoe_vsa4 %></li>
+  <li>Peoe VSA5: <%= @compound.peoe_vsa5 %></li>
+  <li>Peoe VSA6: <%= @compound.peoe_vsa6 %></li>
+  <li>Peoe VSA7: <%= @compound.peoe_vsa7 %></li>
+  <li>Peoe VSA8: <%= @compound.peoe_vsa8 %></li>
+  <li>Peoe VSA9: <%= @compound.peoe_vsa9 %></li>
+  <li>Ringcount: <%= @compound.ringcount %></li>
+  <li>Smr VSA1: <%= @compound.smr_vsa1 %></li>
+  <li>Smr VSA10: <%= @compound.smr_vsa10 %></li>
+  <li>Smr VSA2: <%= @compound.smr_vsa2 %></li>
+  <li>Smr VSA3: <%= @compound.smr_vsa3 %></li>
+  <li>Smr VSA4: <%= @compound.smr_vsa4 %></li>
+  <li>Smr VSA5: <%= @compound.smr_vsa5 %></li>
+  <li>Smr VSA6: <%= @compound.smr_vsa6 %></li>
+  <li>Smr VSA7: <%= @compound.smr_vsa7 %></li>
+  <li>Smr VSA8: <%= @compound.smr_vsa8 %></li>
+  <li>Smr VSA9: <%= @compound.smr_vsa9 %></li>
+  <li>Slogp VSA1: <%= @compound.slogp_vsa1 %></li>
+  <li>Slogp VSA10: <%= @compound.slogp_vsa10 %></li>
+  <li>Slogp VSA11: <%= @compound.slogp_vsa11 %></li>
+  <li>Slogp VSA12: <%= @compound.slogp_vsa12 %></li>
+  <li>Slogp VSA2: <%= @compound.slogp_vsa2 %></li>
+  <li>Slogp VSA3: <%= @compound.slogp_vsa3 %></li>
+  <li>Slogp VSA4: <%= @compound.slogp_vsa4 %></li>
+  <li>Slogp VSA5: <%= @compound.slogp_vsa5 %></li>
+  <li>Slogp VSA6: <%= @compound.slogp_vsa6 %></li>
+  <li>Slogp VSA7: <%= @compound.slogp_vsa7 %></li>
+  <li>Slogp VSA8: <%= @compound.slogp_vsa8 %></li>
+  <li>Slogp VSA9: <%= @compound.slogp_vsa9 %></li>
+  <!-- ... (Previous parameters) -->
+  <li>TPSA: <%= @compound.tpsa %></li>
+  <li>VSA_Estate1: <%= @compound.vsa_estate1 %></li>
+  <li>VSA_Estate10: <%= @compound.vsa_estate10 %></li>
+  <li>VSA_Estate2: <%= @compound.vsa_estate2 %></li>
+  <li>VSA_Estate3: <%= @compound.vsa_estate3 %></li>
+  <li>VSA_Estate4: <%= @compound.vsa_estate4 %></li>
+  <li>VSA_Estate5: <%= @compound.vsa_estate5 %></li>
+  <li>VSA_Estate6: <%= @compound.vsa_estate6 %></li>
+  <li>VSA_Estate7: <%= @compound.vsa_estate7 %></li>
+  <li>VSA_Estate8: <%= @compound.vsa_estate8 %></li>
+  <li>VSA_Estate9: <%= @compound.vsa_estate9 %></li>
+  <li>FR_Al_COO: <%= @compound.fr_al_coo %></li>
+  <li>FR_Al_OH: <%= @compound.fr_al_oh %></li>
+  <li>FR_Al_OH_Notert: <%= @compound.fr_al_oh_notert %></li>
+  <li>FR_Arn: <%= @compound.fr_arn %></li>
+  <li>FR_Ar_COO: <%= @compound.fr_ar_coo %></li>
+  <li>FR_Ar_N: <%= @compound.fr_ar_n %></li>
+  <li>FR_Ar_NH: <%= @compound.fr_ar_nh %></li>
+  <li>FR_Ar_OH: <%= @compound.fr_ar_oh %></li>
+  <li>FR_COO: <%= @compound.fr_coo %></li>
+  <li>FR_COO2: <%= @compound.fr_coo2 %></li>
+  <li>FR_C_O: <%= @compound.fr_c_o %></li>
+  <li>FR_C_O_Nocoo: <%= @compound.fr_c_o_nocoo %></li>
+  <li>FR_C_S: <%= @compound.fr_c_s %></li>
+  <li>FR_Hoccn: <%= @compound.fr_hoccn %></li>
+  <li>FR_Imine: <%= @compound.fr_imine %></li>
+  <li>FR_Nh1: <%= @compound.fr_nh1 %></li>
+  <li>FR_Nh2: <%= @compound.fr_nh2 %></li>
+  <li>FR_N_O: <%= @compound.fr_n_o %></li>
+  <li>FR_Ndealkylation1: <%= @compound.fr_ndealkylation1 %></li>
+  <li>FR_Ndealkylation2: <%= @compound.fr_ndealkylation2 %></li>
+  <li>FR_Nhpyrrole: <%= @compound.fr_nhpyrrole %></li>
+  <li>FR_Sh: <%= @compound.fr_sh %></li>
+  <li>FR_Aldehyde: <%= @compound.fr_aldehyde %></li>
+  <li>FR_Alkyl_Carbamate: <%= @compound.fr_alkyl_carbamate %></li>
+  <li>FR_Alkyl_Halide: <%= @compound.fr_alkyl_halide %></li>
+  <li>FR_Allylic_Oxid: <%= @compound.fr_allylic_oxid %></li>
+  <li>FR_Amide: <%= @compound.fr_amide %></li>
+  <li>FR_Amidine: <%= @compound.fr_amidine %></li>
+  <li>FR_Aniline: <%= @compound.fr_aniline %></li>
+  <li>FR_Aryl_Methyl: <%= @compound.fr_aryl_methyl %></li>
+  <li>FR_Azide: <%= @compound.fr_azide %></li>
+  <li>FR_Azo: <%= @compound.fr_azo %></li>
+  <li>FR_Barbitur: <%= @compound.fr_barbitur %></li>
+  <li>FR_Benzene: <%= @compound.fr_benzene %></li>
+  <li>FR_Benzodiazepine: <%= @compound.fr_benzodiazepine %></li>
+  <li>FR_Bicyclic: <%= @compound.fr_bicyclic %></li>
+  <li>FR_Diazo: <%= @compound.fr_diazo %></li>
+  <li>FR_Dihydropyridine: <%= @compound.fr_dihydropyridine %></li>
+  <li>FR_Epoxide: <%= @compound.fr_epoxide %></li>
+  <li>FR_Ester: <%= @compound.fr_ester %></li>
+  <li>FR_Ether: <%= @compound.fr_ether %></li>
+  <li>FR_Furan: <%= @compound.fr_furan %></li>
+  <li>FR_Guanido: <%= @compound.fr_guanido %></li>
+  <li>FR_Halogen: <%= @compound.fr_halogen %></li>
+  <li>FR_Hdrzine: <%= @compound.fr_hdrzine %></li>
+  <li>FR_Hdrzone: <%= @compound.fr_hdrzone %></li>
+  <li>FR_Imidazole: <%= @compound.fr_imidazole %></li>
+  <li>FR_Imide: <%= @compound.fr_imide %></li>
+  <li>FR_Isocyan: <%= @compound.fr_isocyan %></li>
+  <li>FR_Isothiocyan: <%= @compound.fr_isothiocyan %></li>
+  <li>FR_Ketone: <%= @compound.fr_ketone %></li>
+  <li>FR_Ketone_Topliss: <%= @compound.fr_ketone_topliss %></li>
+  <li>FR_Lactam: <%= @compound.fr_lactam %></li>
+  <li>FR_Lactone: <%= @compound.fr_lactone %></li>
+  <li>FR_Methoxy: <%= @compound.fr_methoxy %></li>
+  <li>FR_Morpholine: <%= @compound.fr_morpholine %></li>
+  <li>FR_Nitrile: <%= @compound.fr_nitrile %></li>
+  <li>FR_Nitro: <%= @compound.fr_nitro %></li>
+  <li>FR_Nitro_Arom: <%= @compound.fr_nitro_arom %></li>
+  <li>FR_Nitro_Arom_Nonortho: <%= @compound.fr_nitro_arom_nonortho %></li>
+  <li>FR_Nitroso: <%= @compound.fr_nitroso %></li>
+  <li>FR_Oxazole: <%= @compound.fr_oxazole %></li>
+  <li>FR_Oxime: <%= @compound.fr_oxime %></li>
+  <li>FR_Para_Hydroxylation: <%= @compound.fr_para_hydroxylation %></li>
+  <li>FR_Phenol: <%= @compound.fr_phenol %></li>
+  <li>FR_Phos_Acid: <%= @compound.fr_phos_acid %></li>
+  <li>FR_Phos_Ester: <%= @compound.fr_phos_ester %></li>
+  <li>FR_Piperdine: <%= @compound.fr_piperdine %></li>
+  <li>FR_Piperzine: <%= @compound.fr_piperzine %></li>
+  <li>FR_Priamide: <%= @compound.fr_priamide %></li>
+  <li>FR_Prisulfonamd: <%= @compound.fr_prisulfonamd %></li>
+  <li>FR_Pyridine: <%= @compound.fr_pyridine %></li>
+  <li>FR_Sulfide: <%= @compound.fr_sulfide %></li>
+  <li>FR_Sulfonamd: <%= @compound.fr_sulfonamd %></li>
+  <li>FR_Sulfone: <%= @compound.fr_sulfone %></li>
+  <li>FR_Term_Acetylene: <%= @compound.fr_term_acetylene %></li>
+  <li>FR_Tetrazole: <%= @compound.fr_tetrazole %></li>
+  <li>FR_Thiazole: <%= @compound.fr_thiazole %></li>
+  <li>FR_Thiocyan: <%= @compound.fr_thiocyan %></li>
+  <li>FR_Thiophene: <%= @compound.fr_thiophene %></li>
+  <li>FR_Unbrch_Alkane: <%= @compound.fr_unbrch_alkane %></li>
+  <li>FR_Urea: <%= @compound.fr_urea %></li>
+  <li>QED: <%= @compound.qed %></li>
+  <li>FR_Nh0: <%= @compound.fr_nh0 %></li>
+  <li>FR_Quatn: <%= @compound.fr_quatn %></li>
+  <li>FR_Phenol_Noorthohbond: <%= @compound.fr_phenol_noorthohbond %></li>
+  <li>BCUT2D_MRLow: <%= @compound.bcut2d_mrlow %></li>
+
 
       </ul><br/>
 
-      <!-- Render the chemical structure image -->
-<% if @compound.image_path %>
-<%= image_tag(@compound.image_path, alt: 'Chemical Structure', size: '10%') %>
-<% else %>
-  <p>Chemical structure image not available.</p>
-<% end %><br/><br/>
+       
 
-  <button onclick="location.href='/compounds/<%= @compound.id %>/inhibitor/new'"> Make a copy as 'Inhibitor' type</button><br/><br/>
 
 
   <%= link_to "<- Back to compound index", "/compounds" %>

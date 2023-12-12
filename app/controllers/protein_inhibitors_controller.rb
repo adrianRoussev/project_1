@@ -100,7 +100,6 @@ end
       protein_id: params[:id]
     })
     
-    # inhibitor.compoundable.update(compoundable_type: 'Inhibitor', compoundable_id: @inhibitor.id)
 
   
 

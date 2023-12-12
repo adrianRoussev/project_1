@@ -3,7 +3,11 @@
 
 <ol>
 <% @compounds.each do |compound| %>
+
+       
+
 <li><h3><a href="/compounds/<%= compound.id %>"><%= compound.name %></a></h3></li>
+
 <ul>
 <li> <%= compound.name %></li>
 <li> <%= compound.smiles %></li>
