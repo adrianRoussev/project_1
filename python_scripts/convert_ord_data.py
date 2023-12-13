@@ -27,7 +27,7 @@ def convert_ord_data_to_csv(model_path):
 # Specify the path to the SavedModel
 model_path = '/Users/ashort/project_1/python_scripts/0a/SavedModel'
 
-# Call the function with the path
+# Call the function with the model path
 convert_ord_data_to_csv(model_path)
 
 
