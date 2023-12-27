@@ -24,7 +24,7 @@ class Reaction < ApplicationRecord
         catalysts_str = join_smiles(catalysts_array)
         reactants_str = join_smiles(reactants_array)
 
-        reaction = "#{products_str}>#{catalysts_str}>#{reactants_str}"
+        reaction = "#{reactants_str}>#{catalysts_str}>#{products_str}"
 
         reaction
     end
@@ -46,7 +46,7 @@ class Reaction < ApplicationRecord
 
         compound_array.each do |x| 
             if x.is_a?(Reactant) || x.is_a?(Catalyst)
-                quantity = x.mass_used      
+                quantity = x.mass_used
             elsif x.is_a?(Product)
                 quantity = x.actual_yeild
             end   
