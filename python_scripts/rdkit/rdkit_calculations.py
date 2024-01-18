@@ -203,62 +203,51 @@ def highlight_similarity(rxn_dict):
             count =  product.GetNumAtoms()
             product_atom_count += count
             product_atom_increments.append(product_atom_count)
-    
+       
+        
         for increment in product_atom_increments: 
             
-            atom_group_product = {}
+            atom_groups_product = {}
             patterns_product = []
             idxs_product = []
-            
-            product = products[product_atom_increments.index(increment)]
-            previous_increment = product_atom_increments[product_atom_increments.index(increment)-1]
+           
+
+            index = product_atom_increments.index(increment)
+            product = products[index]
+            previous_index = index - 1 
+            previous_increment = product_atom_increments[previous_index]
 
             pattern = []
             pattern_idx = []
-            for atom in product_atoms_without_match:   
-                if previous_increment: 
-                    if previous_increment < atom <= increment:
-                        product_index = atom -1 
-                        atomic_num = product.GetAtomAtIndex(product_index)
-                        
-                        if product_index == 0 or pattern_idx[-1]  == product_index - 1 :
-                            pattern.append(atomic_num)
-                            pattern_idx.append(product_index)
-                        
-                        elif atom == increment:
-                            pattern.append(atomic_num)
-                            pattern_idx.append(product_index)
-                            idxs_product.append(pattern_idx)
-                            patterns_product.append(pattern)
-                        else:
-                            idxs_product.append(pattern_idx)
-                            patterns_product.append(pattern)
-                            pattern_idx = [product_index]
-                            pattern = [atomic_num]
 
-                    else:
-                        if atom <= increment & product_atom_increments[0] == increment:
-                            product_index = atom -1 
-                        atomic_num = product.GetAtomAtIndex(product_index)
+            for atom in product_atoms_without_match: 
+                 
+                if 0 <= previous_index  :
+                    previous_increment = product_atom_increments[previous_index]
+                else:
+                    previous_increment= 0  
+                product_index = atom -1 - previous_increment
+                atomic_num = product.GetAtomWithIdx(product_index) 
+                    
+                if previous_increment < atom <= increment:
+
+                    if product_index == 0 or pattern_idx[-1]  == product_index - 1:
+                        pattern.append(Chem.SmartsFromAtom(atomic_num))
+                        pattern_idx.append(product_index)
                         
-                        if product_index == 0 or pattern_idx[-1]  == product_index - 1 :
-                            pattern.append(atomic_num)
-                            pattern_idx.append(product_index)
-                        
-                        elif atom == increment:
-                            pattern.append(atomic_num)
-                            pattern_idx.append(product_index)
-                            idxs_product.append(pattern_idx)
-                            patterns_product.append(pattern)
-                        else:
-                            idxs_product.append(pattern_idx)
-                            patterns_product.append(pattern)
-                            pattern_idx = [product_index]
-                            pattern = [atomic_num]
-                               
-                        atom_group_product['product'] = Chem.MolToSmarts(product)
-                        atom_group_product['patterns'] = patterns_product
-                        atom_group_product['idxs'] = idxs_product
+                    if atom == increment:
+                        idxs_product.append(pattern_idx)
+                        patterns_product.append(pattern)
+                    
+                    if pattern_idx[-1]  != product_index - 1:
+                        idxs_product.append(pattern_idx)
+                        patterns_product.append(pattern)
+                        pattern_idx = [product_index]
+                        pattern = [Chem.SmartsFromAtom(atomic_num)]
+
+            atom_groups_product['product'] = Chem.MolToSmarts(product)
+            atom_groups_product['patterns'] = patterns_product
+            atom_groups_product['idxs'] = idxs_product
 
 
 
@@ -275,7 +264,7 @@ def highlight_similarity(rxn_dict):
 
 
 
-    print(results_dict,reactant_atom_count,  product_atom_count, match_reactant_atom_count, atoms_without_match, atoms_without_match_idx,  reactant_atoms_with_match, missing_patterns, product_atoms_without_match,product_atom_increments, atom_group_product) 
+    print(results_dict,reactant_atom_count,  product_atom_count, match_reactant_atom_count, atoms_without_match, atoms_without_match_idx,  reactant_atoms_with_match, missing_patterns, product_atoms_without_match, product_atom_increments, atom_groups_product) 
 #IS SUBSTRUCTURE MATCH NOT COUNTING ATOM MATCH IF BOND IS different
 
 
