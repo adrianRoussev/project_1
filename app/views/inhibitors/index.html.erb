@@ -1,21 +1,73 @@
 
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Inhibitors</title>
+  <style>
+    body {
+      background-image: url('<%= asset_path("molecules_black_background.jpeg") %>');
+      background-size:  20%;
+      background-repeat:  repeat;
+      background-position:;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0px;
+      padding: 0px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #000; /* Add a solid black background */
+    }
+    .item-container {
+      background-color: #333;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    .edit-button,
+    .delete-button {
+      background-color: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-right: 10px;
+    }
+    .edit-button:hover,
+    .delete-button:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 
-<h1>All Inhibitors</h1>
 
+</head>
+<body>
+  <div class="container">
+    <h1>All Inhibitors</h1>
 
-
-<ol>
+    <ol>
   <% @inhibitors.each do |inhibitor| %>
-   
-    <li>
-   <h3> <a href="/inhibitors/<%= inhibitor.id %>"><%= inhibitor.name %></a></h3>
-    <!-- Render the chemical structure image -->
-<% if inhibitor.image_path %>
-  <%= image_tag(inhibitor.image_path, alt: 'Chemical Structure') %>
-<% else %>
-  <p>Chemical structure image not available.</p>
-<% end %><br/><br/>
+        <li class="item-container">
+    <h3> <a href="/inhibitors/<%= inhibitor.id %>"><%= inhibitor.name %></a></h3>
+    <% if inhibitor.image_path %>
+      <%= image_tag(inhibitor.image_path, alt: 'Chemical Structure') %>
+    <% else %>
+      <p>Chemical structure image not available.</p>
+    <% end %><br/><br/>
       <ul>
       <li>Chemical Structure: <%= inhibitor.structure %></li>
       <li>Chemical Name: <%= inhibitor.name %></li>
@@ -26,17 +78,22 @@
      <!-- <li>Binds To Protein: <%= inhibitor.protein.title %></li> -->
       </ul><br/>
 
+          
+          <!-- Edit and delete buttons -->
+          <button class="edit-button" onclick="location.href='/inhibitors/<%=inhibitor.id%>/edit'">Edit Inhibitor '<%=inhibitor.name%> </button>
+          
+          <form action="/inhibitors/<%inhibitor.id%>%" method="Post">
+          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+          <input type="hidden" name="_method" value="DELETE">
+          <input type="submit" value="Delete"/>
+          </form>
+        </li>
+      <% end %>
+    </ol>
+    
+    <%= link_to "<- Back to home", "/" %>
+  </div>
+</body>
+</html>
 
- <button onclick="location.href='/inhibitors/<%=inhibitor.id%>/edit'">Edit Inhibitor '<%=inhibitor.name%></button><br/><br/>
- 
- <form action="/inhibitors/<%inhibitor.id%>%" method="Post">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="submit" value="Delete"/>
-  </form>
-    </li>
-  <% end %>
-</ol>
-
-<%= link_to "<- Back", "/" %>
 

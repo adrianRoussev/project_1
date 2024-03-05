@@ -89,27 +89,26 @@ def render_smiles(smiles_string, image_file_path):
         print("Failed to create a molecule from SMILES.")
         return False
     
-def generate_labeled_smarts(reactant_smiles, product_smiles, catalyst_smiles):
-    # Convert SMILES to RDKit molecules
-    reactant_mol = Chem.MolFromSmiles(reactant_smiles)
-    product_mol = Chem.MolFromSmiles(product_smiles)
-    catalyst_mol = Chem.MolFromSmiles(catalyst_smiles)
+# def generate_labeled_smarts(reactant_smiles, product_smiles, catalyst_smiles):
+#     # Convert SMILES to RDKit molecules
+#     reactant_mol = Chem.MolFromSmiles(reactant_smiles)
+#     product_mol = Chem.MolFromSmiles(product_smiles)
+#     catalyst_mol = Chem.MolFromSmiles(catalyst_smiles)
 
-    # Generate labeled reaction SMARTS
-    rxn = AllChem.ReactionFromSmarts(f">> reactant + catalyst >> product")
-    rxn.Initialize()
-    rxn.AddReactantTemplate(reactant_mol)
-    rxn.AddProductTemplate(product_mol)
-    rxn.AddAgentTemplate(catalyst_mol)
+#     # Generate labeled reaction SMARTS
+#     rxn = AllChem.ReactionFromSmarts(f">> reactant + catalyst >> product")
+#     rxn.Initialize()
+#     rxn.AddReactantTemplate(reactant_mol)
+#     rxn.AddProductTemplate(product_mol)
+#     rxn.AddAgentTemplate(catalyst_mol)
 
-    # Get the labeled SMARTS
-    smarts = AllChem.ReactionToSmarts(rxn)
+#     # Get the labeled SMARTS
+#     smarts = AllChem.ReactionToSmarts(rxn)
 
-    return smarts
+#     return smarts
     
-def render_reaction_smiles(reactant_smiles, product_smiles, catalyst_smiles, image_file_path):
-    labeled_smarts = generate_labeled_smarts(reactant_smiles, product_smiles, catalyst_smiles)
-    reaction = AllChem.ReactionFromSmarts(labeled_smarts, useSmiles = True)
+def render_reaction_smiles(smarts_string, image_file_path):
+    reaction = AllChem.ReactionFromSmarts(smarts_string, useSmiles = False)
     if reaction:
         d2d = Draw.MolDraw2DCairo(800, 300)
         d2d.DrawReaction(reaction, highlightByReactant=True)
@@ -142,9 +141,9 @@ def render_reaction_smiles(reactant_smiles, product_smiles, catalyst_smiles, ima
 #         return False
 
 
-def render_smiles_or_reaction(smiles_string, image_file_path):
-    if is_reaction_smiles(smiles_string):
-        return render_reaction_smiles(reactant_smiles, product_smiles, catalyst_smiles, image_file_path)
+def render_smiles_or_reaction(smarts_string, image_file_path):
+    if is_reaction_smiles(smarts_string):
+        return render_reaction_smiles(smarts_string, image_file_path)
     else:
         return render_smiles(smiles_string, image_file_path)
 

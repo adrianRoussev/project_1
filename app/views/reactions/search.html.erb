@@ -1,0 +1,41 @@
+<% if @reactions.any? %>
+  <h2>Reactions</h2>
+  <ol>
+<% @reactions.each do |reaction| %>
+<li><h3><a href="/reactions/<%= reaction.id %>"><%= reaction.products %></a></h3></li>
+<ul>
+<li> Reactants(listed by smiles): <%= reaction.get_smiles_array(reaction.reactants) %> <br/> Mass Used: <%= reaction.get_compound_quantity(reaction.reactants)%> </li><br/>
+<li> Products(listed by smiles):<%=  reaction.get_smiles_array(reaction.products) %> <br/> Product Yeild: <%= reaction.get_compound_quantity(reaction.products)%></li><br/>
+<li> Catalysts(listed by smiles): <%=  reaction.get_smiles_array(reaction.catalysts)%> <br/> Mass Used: <%= reaction.get_compound_quantity(reaction.catalysts)%></li> <br/>
+<li> <%= reaction.solvent %></li> <br/>
+<li> <%= reaction.step_number %></li> <br/>
+<li> <%= reaction.type_of_reaction %></li><br/>
+<li> <%= reaction.temperature_c %></li> <br/>
+<li> <%= reaction.reaction_smiles %></li> <br/>
+<li> <%= reaction.image_path %></li> 
+
+
+</ul><br/>
+
+
+<% if reaction.image_path %>
+<%= image_tag(reaction.image_path, alt: 'Chemical Structure', size: '10%') %>
+<% else %>
+  <p>Chemical structure image not available.</p>
+<% end %><br/><br/>
+  
+
+  <button onclick="location.href='/reactions/<%= reaction.id %>/edit'">Edit</button>
+  
+  <form action="/reactions/<%= reaction.id %>" method="POST">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete"/>
+  </form>
+<% end %><br/>
+
+</ol>
+
+<% else %>
+  <p>No reactions found.</p>
+<% end %>

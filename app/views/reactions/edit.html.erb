@@ -1,0 +1,229 @@
+  <!-- Reactants -->
+    
+    <% @reaction.reactants.each do |reactant| %>
+    <select hidden id="compoundlistreactant" name="reaction[reactants][]" form="editreaction">
+    <option value="" selected disabled>Select a compound</option>
+        <% @compounds.each do |compound| %>
+            <option value="<%= compound.id %>"  data-image-path="<%= compound.image_path %>"><%= compound.name %></option>
+        <% end %>
+    </select>
+<% end %>
+
+
+    <select hidden id="reactantlist" name="reaction[reactants][]"   form="editreaction">
+        <% @reaction.reactants.each do |reactant| %>
+            <option value="<%= reactant.compound_id %>"data-image-path="<%= reactant.compound.image_path %>"> <%= reactant.compound.name %></option>
+        <% end %>
+    </select>
+
+
+  <!-- Products -->
+    <% @reaction.products.each do |product| %>
+    <select hidden id="compoundlistproduct" name="reaction[products][]" form="editreaction">
+        <% @compounds.each do |compound| %>
+            <option value="<%= compound.id %>"data-image-path="<%= compound.image_path %>"><%= compound.name %></option>
+       
+        <% end %>
+      </select>
+    <% end %>
+
+    <select hidden id="productlist" name="reaction[reactants][]"   form="editreaction">
+        <% @reaction.products.each do |product| %>
+            <option value="<%= product.compound_id %>"data-image-path="<%= product.compound.image_path %>"> <%= product.compound.name %></option>
+        <% end %>
+    </select>
+
+  <!-- Catalysts -->
+  
+    <% @reaction.catalysts.each do |catalyst| %>
+    <select hidden id="compoundlistcatalyst" name="reaction[catalysts][]" form="editreaction">
+        <% @compounds.each do |compound| %>
+            <option value="<%= compound.id %>"  data-image-path="<%= compound.image_path %>"><%= compound.name %></option>
+        <% end %>
+    </select>
+    <% end %>
+
+    <select hidden id="catalystlist" name="reaction[reactants][]"   form="editreaction">
+        <% @reaction.catalysts.each do |catalyst| %>
+            <option value="<%= catalyst.compound_id %>"data-image-path="<%= catalyst.compound.image_path %>"> <%= catalyst.compound.name %></option>
+        <% end %>
+    </select>
+
+    
+
+
+
+
+<h1>Edit Reaction</h1>
+
+<form action="/reactions/<%= @reaction.id %>" name="editreaction"  method="patch">  
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="_method" value="PATCH"/>
+
+    <label>Add a reactant then select its value from the list of compounds:  </label><br/>
+        <div  id="reactants-container">
+        </div><br/><br/>
+    <input type="button" value="Add Reactant" id="add-reactant-btn"><br/><br/>
+
+
+    <label>Add a product then select its value from the list of compounds:  </label><br/>
+        <div id="products-container">
+        </div><br/><br/>
+    <input type="button" value="Add Product" id="add-product-btn"><br/><br/>
+
+
+    <label>Add a catalyst then select its value from the list of compounds:  </label><br/>
+        <div id="catalysts-container">
+        </div><br/><br/>
+    <input type="button" value = "Add Catalyst" id="add-catalyst-btn"><br><br>
+
+    <!-- Button to add all existing reactants, products, and catalysts -->
+    <label>Add a catalyst then select its value from the list of compounds:  </label><br/>
+    <input type="button" value="Add All Existing Components" id="add-all-components-btn"><br><br>
+
+  <!-- Other Reaction Parameters -->
+  <label>Solvent:</label><br>
+  <input type="input" name="reaction[solvent]" value="<%= @reaction.solvent %>"><br><br>
+
+  <label>Step number:</label><br>
+  <input type="input" name="reaction[step_number]" value="<%= @reaction.step_number %>"><br><br>
+
+  <label>Temperature (degrees C):</label><br>
+  <input type="input" name="reaction[temperature_c]" value="<%= @reaction.temperature_c %>"><br><br>
+
+  <input type="submit" value="Submit">
+</form><br><br>
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const addButtonReactant = document.getElementById("add-reactant-btn");
+  const addButtonProduct = document.getElementById("add-product-btn");
+  const addButtonCatalyst = document.getElementById("add-catalyst-btn");
+  const addAllComponentsButton = document.getElementById("add-all-components-btn");
+
+  addButtonReactant.addEventListener("click", function(e) {
+    e.preventDefault();
+    addElement("reactants-container", "compoundlistreactant");
+  });
+
+  addButtonProduct.addEventListener("click", function(e) {
+    e.preventDefault();
+    addElement("products-container", "compoundlistproduct");
+  });
+
+  addButtonCatalyst.addEventListener("click", function(e) {
+    e.preventDefault();
+    addElement("catalysts-container", "compoundlistcatalyst");
+  });
+
+  addAllComponentsButton.addEventListener("click", function(e) {
+    e.preventDefault();
+    addAllExistingComponents();
+  });
+
+  function addElement(containerId, listId) {
+    const container = document.getElementById(containerId);
+    const newSelect = document.createElement("select");
+    newSelect.name = `reaction[${containerId.split('-')[0]}][]`;
+
+    const compoundList = document.getElementById(listId);
+    compoundList.querySelectorAll("option").forEach(option => {
+      const newOption = document.createElement("option");
+      newOption.value = option.value;
+      newOption.text = option.text;
+      newOption.selected = option.selected;
+
+      // Add the image path as a data attribute
+      newOption.setAttribute('data-image-path', option.getAttribute('data-image-path'));
+
+      newSelect.appendChild(newOption);
+    });
+
+    // Create an image element for displaying compound image
+    const compoundImage = document.createElement("img");
+    compoundImage.id = `${containerId}-image`;
+    compoundImage.style.display = "none"; // Initially hide the image
+
+    newSelect.addEventListener("change", function() {
+      const selectedOption = newSelect.options[newSelect.selectedIndex];
+      const imagePath = selectedOption.getAttribute("data-image-path");
+      if (imagePath) {
+        compoundImage.src = imagePath;
+        compoundImage.style.display = "block";
+      } else {
+        compoundImage.style.display = "none";
+      }
+    });
+
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", function() {
+      container.removeChild(newSelect);
+      container.removeChild(compoundImage);
+      container.removeChild(removeButton);
+    });
+
+    container.appendChild(newSelect);
+    container.appendChild(compoundImage);
+    container.appendChild(removeButton);
+  }
+
+ function addAllExistingComponents() {
+    addExistingComponents("reactants-container", "reactantlist");
+    addExistingComponents("products-container", "productlist");
+    addExistingComponents("catalysts-container", "catalystlist");
+}
+
+function addExistingComponents(containerId, listId) {
+    const container = document.getElementById(containerId);
+    const compoundList = document.getElementById(listId);
+
+    // Iterate through each option in the compound list
+    compoundList.querySelectorAll("option").forEach(option => {
+        // Create a select element
+        const newSelect = document.createElement("select");
+        newSelect.name = `reaction[${containerId.split('-')[0]}][]`;
+        const optionValue = option.value;
+        newSelect.innerHTML = `<option value="${optionValue}" ${option.selected ? 'selected' : ''}>${option.textContent}</option>`;
+
+        // Create an image element for displaying compound image
+        const compoundImage = document.createElement("img");
+        compoundImage.id = `${containerId}-image-${optionValue}`; // Unique id for each image
+        const imagePath = option.getAttribute("data-image-path");
+        if (imagePath) {
+            compoundImage.src = imagePath;
+            compoundImage.style.display = "block"; // Display the image
+        } else {
+            compoundImage.style.display = "none"; // Hide the image if there's no path
+        }
+
+        // Create a remove button
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "Remove";
+        removeButton.addEventListener("click", function() {
+            container.removeChild(newSelect);
+            container.removeChild(compoundImage);
+            container.removeChild(removeButton);
+        });
+
+        // Append the elements to the container
+        container.appendChild(newSelect);
+        container.appendChild(compoundImage);
+        container.appendChild(removeButton);
+    });
+}
+
+  // Call addAllExistingComponents() on page load to populate the selects with existing selections
+  addAllExistingComponents();
+});
+
+</script>
+
+
+
+<%= link_to "<- Back to home", "/" %>
+
+

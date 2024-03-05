@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Reactions Index Page</title>
+  <style>
+    body {
+      background-image: url('<%= asset_path("molecules_black_background.jpeg") %>');
+      background-size:  20%;
+      background-repeat:  repeat;
+      background-position:;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0px;
+      padding: 0px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #000; /* Add a solid black background */
+    }
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start; /* Align items to the top */
+      margin-top: 20px;
+    }
+    .button-wrapper {
+      width: 23%;
+      position: relative; /* Add relative positioning */
+    }
+    .button {
+      background-color: transparent;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      width: auto; /* Make buttons take full width of button wrapper */
+      height:250px;
+      padding: 0; /* Remove padding */
+      margin-bottom: 10px; /* Add margin between buttons */
+      background-size: 100% 100%; /* Adjust background size to contain */
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      background-position: center; /* Center the background image */
+    }
+    .button:hover {
+      background-color: rgba(255, 255, 255, 0.2); /* Add transparency on hover */
+    }
+    .small-button-container {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%); /* Center the small button container */
+      width: 100%; /* Ensure full width */
+    }
+    .small-button {
+      background-color: #555;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 5px;
+    }
+    .small-button:hover {
+      background-color: #777;
+    }
+    .title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+    }
+    /* Additional styles specific to the index page */
+    .actions {
+      margin-top: 20px;
+    }
+    label {
+      color: #fff;
+    }
+    select {
+      width: 100%;
+      padding: 5px;
+      border-radius: 5px;
+      border: none;
+    }
+    input[type="submit"] {
+      background-color: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    input[type="submit"]:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    ol {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .reaction-instance {
+    background-color: #333;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+
+  /* Style for edit and delete buttons */
+  .edit-button,
+  .delete-button {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+  }
+
+  .edit-button:hover,
+  .delete-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+</style>
+  
+</head>
+<body>
+  <div class="container">
+    <h1>Reactions</h1>
+
+    <%= form_tag({controller: "reactions", action: "index_all"}, method: "get") do %>
+      <div class="field">
+        <%= label_tag "inhibitor_id", "Select Inhibitor:" %>
+        <%= select_tag "inhibitor_id", options_for_select(@inhibitors.map{ |i| [i.name, i.id] }), include_blank: true %>
+      </div>
+      <div class="actions">
+        <%= submit_tag "Search" %>
+      </div>
+    <% end %>
+
+    <% if @reactions.any? %>
+      <ol>
+        <% @reactions.each do |reaction| %>
+          <div class="reaction-instance">
+
+          <li>
+            <h3><a href="/reactions/<%= reaction.id %>"><%= reaction.products %></a></h3>
+            <ul>
+              <li>Reactants(listed by smiles): <%= reaction.get_smiles_array(reaction.reactants) %> <br/> Mass Used: <%= reaction.get_compound_quantity(reaction.reactants)%></li>
+              <li>Products(listed by smiles): <%=  reaction.get_smiles_array(reaction.products) %> <br/> Product Yield: <%= reaction.get_compound_quantity(reaction.products)%></li>
+              <li>Catalysts(listed by smiles): <%=  reaction.get_smiles_array(reaction.catalysts)%> <br/> Mass Used: <%= reaction.get_compound_quantity(reaction.catalysts)%></li>
+              <li><%= reaction.solvent %></li>
+              <li><%= reaction.step_number %></li>
+              <li><%= reaction.type_of_reaction %></li>
+              <li><%= reaction.temperature_c %></li>
+              <li><%= reaction.reaction_smiles %></li>
+              <li><%= reaction.image_path %></li>
+
+              <% if reaction.image_path %>
+                <%= image_tag(reaction.image_path, alt: 'Chemical Structure', size: '10%') %>
+              <% else %>
+                <p>Chemical structure image not available.</p>
+              <% end %>
+              <br/> <br/>
+              
+
+              <button class="edit-button" onclick="location.href='/reactions/<%= reaction.id %>/edit'">Edit</button>
+    
+              <form action="/reactions/<%= reaction.id %>" method="POST">
+              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+              <input type="hidden" name="_method" value="DELETE">
+              <input type="submit" class="delete-button" value="Delete"/>
+              </form>
+            </ul>
+          </li>
+          </div>
+        <% end %>
+      </ol>
+    <% else %>
+      <p>No reactions found.</p>
+    <% end %>
+
+    <%= link_to "<- Back to home", "/" %>
+  </div>
+</body>
+</html>

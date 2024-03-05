@@ -1,24 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Proteins</title>
+  <style>
+    body {
+      background-image: url('<%= asset_path("molecules_black_background.jpeg") %>');
+      background-size:  20%;
+      background-repeat:  repeat;
+      background-position:;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0px;
+      padding: 0px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #000; /* Add a solid black background */
+    }
+    .item-container {
+      background-color: #333;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    .edit-button,
+    .delete-button {
+      background-color: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-right: 10px;
+    }
+    .edit-button:hover,
+    .delete-button:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>All Proteins</h1>
 
-<h1>All Proteins</h1>
-
-<ol>
-<% @proteins.each do |protein| %>
-<li>
-  <h3><a href="/proteins/<%= protein.id %>"><%= protein.title %></a></h3>
-<ul>
-<li> <%= protein.description %></li>
-</ul><br/>
-
-
-
-  <button onclick="location.href='/proteins/<%= protein.id %>/edit'">Edit</button>
-  
-  <form action="/proteins/<%= protein.id %>" method="POST">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="submit" value="Delete"/>
-  </form>
-<% end %><br/>
-</ol>
-<%= link_to "Add New Protein", '/proteins/new' %><br/><br/>
-<%= link_to "<- Back to home", "/" %>
+    <ol>
+      <% @proteins.each do |protein| %>
+        <li class="item-container">
+          <h3><a href="/proteins/<%= protein.id %>"><%= protein.title %></a></h3>
+          <ul>
+            <li><%= protein.description %></li>
+          </ul>
+          
+          <!-- Edit and delete buttons -->
+          <button class="edit-button" onclick="location.href='/proteins/<%= protein.id %>/edit'">Edit</button>
+          
+          <form action="/proteins/<%= protein.id %>" method="POST">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" class="delete-button" value="Delete"/>
+          </form>
+        </li>
+      <% end %>
+    </ol>
+    
+    <%= link_to "Add New Protein", '/proteins/new' %><br/><br/>
+    <%= link_to "<- Back to home", "/" %>
+  </div>
+</body>
+</html>

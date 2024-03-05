@@ -37,7 +37,8 @@ Rails.application.routes.draw do
   get "/compounds/:id/inhibitor/new", to: "compounds#new_inhibitor"
   post "/compounds/:id/:protein_id/inhibitor", to: "compounds#create_inhibitor"
 
-  get "/reactions", to: "reactions#index"
+  get "/reactions", to: "reactions#index_all"
+  post "/reactions/search", to: "reactions#index_all"
   get "/reactions/:id", to: "reactions#show"
   get "/inhibitors/:inhibitor_id/reactions/new", to: "reactions#new"
   post "/inhibitors/:inhibitor_id/reactions", to: "reactions#create"

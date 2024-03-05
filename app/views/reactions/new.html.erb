@@ -3,36 +3,30 @@
 <h1>Add details for new reaction</h1>
 
 
-
+  <select hidden id="compoundlistreactant" name="reaction[reactants][]" form="createreaction">
   
-  <select hidden id="compoundlistproduct" name="reaction[products][]" form="createreaction">
-    <% @compounds.each do |compound| %>
-      
-      <%c_sm = compound.smiles%>
-      <%c_id = compound.id%>
-   
-      <option value=<%= c_id %> ><%= compound.name %></option>
-
-    <% end %>
+    <option value="" selected disabled>Select a compound</option>
+        <% @compounds.each do |compound| %>
+            <option value="<%= compound.id %>"  data-image-path="<%= compound.image_path %>"><%= compound.name %></option>
+        <% end %>
+        
   </select><br/><br/>
 
-  <select hidden id="compoundlistreactant" name="reaction[reactants][]" form="createreaction">
-    <% @compounds.each do |compound| %>
+  <select hidden id="compoundlistproduct" name="reaction[products][]" form="createreaction">
     
-      <%c_sm = compound.smiles%>
-      <%c_id = compound.id%>
-   
-      <option value=<%= c_id %> ><%= compound.name %></option>
-   
-    <% end %>
+    <option value="" selected disabled>Select a compound</option>
+        <% @compounds.each do |compound| %>
+            <option value="<%= compound.id %>"  data-image-path="<%= compound.image_path %>"><%= compound.name %></option>
+        <% end %>
+
   </select><br/><br/>
 
   <select hidden id="compoundlistcatalyst"  name="reaction[catalysts][]," form="createreaction">
-   <% @compounds.each do |compound| %>
-   <%c_sm = compound.smiles%>
-   <%c_id = compound.id%>
-      <option value=<%= c_id %> ><%= compound.name %></option>
-    <% end %>
+   <option value="" selected disabled>Select a compound</option>
+        <% @compounds.each do |compound| %>
+            <option value="<%= compound.id %>"  data-image-path="<%= compound.image_path %>"><%= compound.name %></option>
+        <% end %>
+   
   </select><br/><br/>
 
 <form action="/inhibitors/<%=@inhibitor.id%>/reactions" name="createreaction" method="post">
@@ -76,64 +70,79 @@
 </form><br/><br/>
 
 
+
+
 <script>
-
-
 document.addEventListener("DOMContentLoaded", function() {
-  const container = document.getElementById("reactants-container");
-  const addButton = document.getElementById("add-reactant-btn");
-  const compoundListReactant = document.getElementById("compoundlistreactant");
+  const addButtonReactant = document.getElementById("add-reactant-btn");
+  const addButtonProduct = document.getElementById("add-product-btn");
+  const addButtonCatalyst = document.getElementById("add-catalyst-btn");
 
-
-
-  addButton.addEventListener("click", function(e) {
+  addButtonReactant.addEventListener("click", function(e) {
     e.preventDefault();
-    
-    const newSelect = document.createElement("select");
-    newSelect.name = "reaction[reactants][]";
-    
-    newSelect.innerHTML = compoundListReactant.innerHTML;
-    
-    
-    container.appendChild(newSelect);
+    addElement("reactants-container", "compoundlistreactant");
   });
-});
 
-document.addEventListener("DOMContentLoaded", function() {
-  const container = document.getElementById("products-container");
-  const addButton = document.getElementById("add-product-btn");
-
-  addButton.addEventListener("click", function(e) {
+  addButtonProduct.addEventListener("click", function(e) {
     e.preventDefault();
-    
-    const newSelect = document.createElement("select");
-    newSelect.name = "reaction[products][]";
-    
-    const compoundListProduct = document.getElementById("compoundlistproduct");
-    newSelect.innerHTML = compoundListProduct.innerHTML;
-
-    container.appendChild(newSelect);
-  }); 
-});
-
-document.addEventListener("DOMContentLoaded", function() {
-  const container = document.getElementById("catalysts-container");
-  const addButton = document.getElementById("add-catalyst-btn");
-
-  addButton.addEventListener("click", function(e) {
-    e.preventDefault();
-    
-    const newSelect = document.createElement("select");
-    newSelect.name = "reaction[catalysts][]";
-    
-    const compoundListCatalyst = document.getElementById("compoundlistcatalyst");
-    newSelect.innerHTML = compoundListCatalyst.innerHTML;
-
-    container.appendChild(newSelect);
+    addElement("products-container", "compoundlistproduct");
   });
-});
 
+  addButtonCatalyst.addEventListener("click", function(e) {
+    e.preventDefault();
+    addElement("catalysts-container", "compoundlistcatalyst");
+  });
+
+  
+  function addElement(containerId, listId) {
+    const container = document.getElementById(containerId);
+    const newSelect = document.createElement("select");
+    newSelect.name = `reaction[${containerId.split('-')[0]}][]`;
+
+    const compoundList = document.getElementById(listId);
+    compoundList.querySelectorAll("option").forEach(option => {
+      const newOption = document.createElement("option");
+      newOption.value = option.value;
+      newOption.text = option.text;
+      newOption.selected = option.selected;
+
+      // Add the image path as a data attribute
+      newOption.setAttribute('data-image-path', option.getAttribute('data-image-path'));
+
+      newSelect.appendChild(newOption);
+    });
+
+    // Create an image element for displaying compound image
+    const compoundImage = document.createElement("img");
+    compoundImage.id = `${containerId}-image`;
+    compoundImage.style.display = "none"; // Initially hide the image
+
+    newSelect.addEventListener("change", function() {
+      const selectedOption = newSelect.options[newSelect.selectedIndex];
+      const imagePath = selectedOption.getAttribute("data-image-path");
+      if (imagePath) {
+        compoundImage.src = imagePath;
+        compoundImage.style.display = "block";
+      } else {
+        compoundImage.style.display = "none";
+      }
+    });
+
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", function() {
+      container.removeChild(newSelect);
+      container.removeChild(compoundImage);
+      container.removeChild(removeButton);
+    });
+
+    container.appendChild(newSelect);
+    container.appendChild(compoundImage);
+    container.appendChild(removeButton);
+  }
+});
 </script>
+
 
 
 <%= link_to "<- Back to home", "/" %>
