@@ -203,7 +203,9 @@
     <% else %>
       <p>No reactions found.</p>
     <% end %>
-
+    <% if @inhibitor %>
+    <button class="edit-button" onclick="location.href='/inhibitors/<%=@inhibitor.id%>/reactions/new'">New Reaction for Selected Inhibitor</button> <br/> <br/>
+    <% end %>
     <%= link_to "<- Back to home", "/" %>
   </div>
 </body>

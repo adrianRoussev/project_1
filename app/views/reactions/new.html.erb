@@ -10,7 +10,7 @@
             <option value="<%= compound.id %>"  data-image-path="<%= compound.image_path %>"><%= compound.name %></option>
         <% end %>
         
-  </select><br/><br/>
+  </select>
 
   <select hidden id="compoundlistproduct" name="reaction[products][]" form="createreaction">
     
@@ -19,7 +19,7 @@
             <option value="<%= compound.id %>"  data-image-path="<%= compound.image_path %>"><%= compound.name %></option>
         <% end %>
 
-  </select><br/><br/>
+  </select>
 
   <select hidden id="compoundlistcatalyst"  name="reaction[catalysts][]," form="createreaction">
    <option value="" selected disabled>Select a compound</option>
@@ -47,14 +47,17 @@
     
     <input type="button" value="Add Product" id="add-product-btn"><br/><br/>
 
- <label>Add a catalyst then select its value from the list of compounds:  </label><br/>
+    <label>Add a catalyst then select its value from the list of compounds:  </label><br/>
     
         <div id="catalysts-container">
         </div><br/><br/>
 
-            <input type="button" value="Add Catalyst" id="add-catalyst-btn"><br/><br/>
+    <input type="button" value="Add Catalyst" id="add-catalyst-btn"><br/><br/><br/>
+    <label>                  OR                    </label><br/><br/><br/>
+    <label> Add the Reaction as a SMILES string: </label><br/>
+        <input type="input" name="reaction[reaction_smiles]" ><br/><br/>
 
-
+    <label>* To have the solvent structure appear in the reaction image add it as a catalyst as well</label><br/>
     <label>Solvent: </label><br/>
         <input type="input" name="reaction[solvent]" ><br/><br/>
 

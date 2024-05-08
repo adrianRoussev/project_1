@@ -10,6 +10,10 @@ class ReactionsController < ApplicationController
           inhibitor_id = params[:inhibitor_id]
           @reactions = Reaction.where(inhibitor_id: inhibitor_id)
           @inhibitors = Inhibitor.all
+          
+          if inhibitor_id
+            @inhibitor = Inhibitor.find(inhibitor_id)
+          end
         end
 
         def search
@@ -37,20 +41,45 @@ class ReactionsController < ApplicationController
             reactants_attributes: map_compounds(params[:reaction][:reactants]) ,
             products_attributes: map_compounds(params[:reaction][:products]),
             catalysts_attributes: map_compounds(params[:reaction][:catalysts])
-  })
+          })
             
 
+            if @reaction.reaction_smiles == nil
+              reactants = @reaction.reactants
+              products = @reaction.products
+              catalysts = @reaction.catalysts
 
-            reactants = @reaction.reactants
-            products = @reaction.products
-            catalysts = @reaction.catalysts
+              reaction_smiles = @reaction.create_reaction(products, reactants, catalysts)
+              reaction_smarts = RdkitService.get_standardized_smarts(reaction_smiles)
+              @reaction.update(reaction_smiles: reaction_smarts)
+            
+            else
+              raw_smarts = @reaction.reaction_smiles
+              
+              reactants_smiles = RdkitService.get_compounds_from_smarts(raw_smarts, "reactants")
+              products_smiles = RdkitService.get_compounds_from_smarts(raw_smarts, "products")
+              catalysts_smiles = RdkitService.get_compounds_from_smarts(raw_smarts, "catalysts")
+              
+              reactants_smiles.each do|smiles|
+                  compound = Compound.create(smiles: smiles)
+                  @reaction.reactants.build(compound_id: compound.id)                        
+              end
+          
+              products_smiles.each do|smiles|
+                compound = Compound.create(smiles: smiles)
+                @reaction.products.build(compound_id: compound.id)                        
+              end
 
-            reaction_smiles = @reaction.create_reaction(products, reactants, catalysts)
+              catalysts_smiles.each do|smiles|
+                compound = Compound.create(smiles: smiles)
+                @reaction.catalysts.build(compound_id: compound.id)                        
+              end
 
-            reaction_smarts = RdkitService.get_standardized_smarts(reaction_smiles)
-
-            @reaction.update(reaction_smiles: reaction_smarts)
-    
+              reaction_smarts = RdkitService.get_standardized_smarts(raw_smarts)
+              @reaction.update(reaction_smiles: reaction_smarts)
+            
+            end
+            
             flash[:success] = 'Reaction created successfully.'
 
             # Make below a method in a helper file #
@@ -158,6 +187,8 @@ class ReactionsController < ApplicationController
           params.require(:reaction).permit(:solvent, :step_number, :temperature_c, reactants: [:id, :compound_id], products: [:id, :compound_id], catalysts: [:id, :compound_id], reactants_attributes: [:compound_id], products_attributes: [:compound_id], catalysts_attributes: [:compound_id])
         end
 
+       
+
 
         def generate_image_for_reaction(inhibitor, reaction)
           
@@ -177,3 +208,5 @@ class ReactionsController < ApplicationController
         end
           
       end
+
+     

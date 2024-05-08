@@ -1,11 +1,9 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>All Inhibitors</title>
+  <title>All Inhibitors Index Page</title>
   <style>
     body {
       background-image: url('<%= asset_path("molecules_black_background.jpeg") %>');
@@ -13,8 +11,7 @@
       background-repeat:  repeat;
       background-position:;
       color: #fff;
-      font-family: Arial, sans-serif;
-      margin: 0px;
+      font-family: 'Roboto', sans-serif;      margin: 0px;
       padding: 0px;
     }
     .container {
@@ -23,14 +20,80 @@
       padding: 20px;
       background-color: #000; /* Add a solid black background */
     }
-    .item-container {
-      background-color: #333;
-      padding: 15px;
-      border-radius: 5px;
-      margin-bottom: 20px;
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start; /* Align items to the top */
+      margin-top: 20px;
     }
-    .edit-button,
-    .delete-button {
+    .button-wrapper {
+      width: 23%;
+      position: relative; /* Add relative positioning */
+    }
+    .button {
+      background-color: transparent;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      width: auto; /* Make buttons take full width of button wrapper */
+      height:250px;
+      padding: 0; /* Remove padding */
+      margin-bottom: 10px; /* Add margin between buttons */
+      background-size: 100% 100%; /* Adjust background size to contain */
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      background-position: center; /* Center the background image */
+    }
+    .button:hover {
+      background-color: rgba(255, 255, 255, 0.2); /* Add transparency on hover */
+    }
+    .small-button-container {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%); /* Center the small button container */
+      width: 100%; /* Ensure full width */
+    }
+    .small-button {
+      background-color: #555;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 5px;
+    }
+    .small-button:hover {
+      background-color: #777;
+    }
+    .title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+    }
+    /* Additional styles specific to the index page */
+    .actions {
+      margin-top: 20px;
+    }
+    label {
+      color: #fff;
+    }
+    select {
+      width: 100%;
+      padding: 5px;
+      border-radius: 5px;
+      border: none;
+    }
+    input[type="submit"] {
       background-color: transparent;
       color: #fff;
       border: 1px solid #fff;
@@ -38,11 +101,16 @@
       padding: 5px 10px;
       cursor: pointer;
       transition: background-color 0.3s ease;
-      margin-right: 10px;
     }
-    .edit-button:hover,
-    .delete-button:hover {
+    input[type="submit"]:hover {
       background-color: rgba(255, 255, 255, 0.2);
+    }
+    ol {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
     }
     a {
       color: #fff;
@@ -51,15 +119,65 @@
     a:hover {
       text-decoration: underline;
     }
-  </style>
 
+    .inhibitor-instance {
+    background-color: #333;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
 
+  .edit-button,
+  .delete-button {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+  }
+
+  .edit-button:hover,
+  .delete-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .new-button {
+    background-color: rgba(255, 255, 255);
+    color: #000000;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+  }
+
+  .new-button:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+  
+</style>
+  
 </head>
 <body>
   <div class="container">
     <h1>All Inhibitors</h1>
 
-    <ol>
+    <%= form_tag({controller: "inhibitors", action: "index"}, method: "get") do %>
+      <div class="field">
+        <%= label_tag "protein_id", "Select Protein:" %>
+        <%= select_tag "protein_id", options_for_select(@proteins.map{ |i| [i.title, i.id] }), include_blank: true %>
+      </div>
+      <div class="actions">
+        <%= submit_tag "Search" %>
+      </div>
+    <% end %>
+
+    <% if @inhibitors.any? %>
+      <ol>
   <% @inhibitors.each do |inhibitor| %>
         <li class="item-container">
     <h3> <a href="/inhibitors/<%= inhibitor.id %>"><%= inhibitor.name %></a></h3>
@@ -74,12 +192,9 @@
       <li> Target Site: <%=inhibitor.target_site%></li>
       <li> Smiles: <%=inhibitor.smiles%></li>
       
-
-     <!-- <li>Binds To Protein: <%= inhibitor.protein.title %></li> -->
       </ul><br/>
 
           
-          <!-- Edit and delete buttons -->
           <button class="edit-button" onclick="location.href='/inhibitors/<%=inhibitor.id%>/edit'">Edit Inhibitor '<%=inhibitor.name%> </button>
           
           <form action="/inhibitors/<%inhibitor.id%>%" method="Post">
@@ -90,10 +205,16 @@
         </li>
       <% end %>
     </ol>
-    
+    <% else %>
+      <p>No inhibitors found.</p>
+    <% end %>
+    <% if @protein %>
+    <button class="new-button" onclick="location.href='/proteins/<%=@protein.id%>/inhibitors/new'">New Inhibitor for Selected Protein </button> <br/> <br/>
+    <% end %>
     <%= link_to "<- Back to home", "/" %>
   </div>
 </body>
 </html>
+
 
 

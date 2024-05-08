@@ -16,94 +16,95 @@
       padding: 0px;
     }
     .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #000; /* Add a solid black background */
-}
-
-.iframe-container {
-  margin-top: 120px;
-  width: 75%; /* Set the width to 75% of the screen */
-  margin: 0 auto; /* Center the container horizontally */
-}
-
-.iframe-wrapper {
-  width: 100%;
-  position: relative;
-  padding-top: 56.25%; /* 16:9 aspect ratio for responsive iframes */
-}
-
-.iframe-wrapper iframe {
-  position: absolute;
-  top: 50px;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0; /* Remove iframe border */
-}
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #000; /* Add a solid black background */
+    }
 
 
-.button-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start; /* Align items to the top */
-  margin-top: 20px;
-}
+    .iframe-container {
+      margin-top: 120px;
+      width: 75%; /* Set the width to 75% of the screen */
+      margin: 0 auto; /* Center the container horizontally */
+    }
 
-.button-wrapper {
-  width: 23%;
-  position: relative; /* Add relative positioning */
-}
+    .iframe-wrapper {
+      width: 100%;
+      position: relative;
+      padding-top: 56.25%; /* 16:9 aspect ratio for responsive iframes */
+    }
 
-.button {
-  background-color: transparent;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  display: block;
-  text-align: center;
-  text-decoration: none;
-  width: auto; /* Make buttons take full width of button wrapper */
-  height:250px;
-  padding: 0; /* Remove padding */
-  margin-bottom: 10px; /* Add margin between buttons */
-  background-size: 100% 100%; /* Adjust background size to contain */
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-  background-position: center; /* Center the background image */
-}
+    .iframe-wrapper iframe {
+      position: absolute;
+      top: 50px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0; /* Remove iframe border */
+    }
 
-.button:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* Add transparency on hover */
-}
+    /* EDIT SO THAT PHOTOS ARE NOT DISTORTED WHEN PAGE IS SMALLER */
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start; /* Align items to the top */
+      margin-top: 20px;
+      width: 100%;
+    }
 
-.small-button-container {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%); /* Center the small button container */
-  width: 100%; /* Ensure full width */
-}
+    .button-wrapper {
+      width: 23%;
+      position: relative; 
+    }
 
-.small-button {
-  background-color: #555;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  display: block;
-  text-align: center;
-  text-decoration: none;
-  margin-top: 5px;
-}
+    .button {
+      background-color: transparent;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      width: auto; /* Make buttons take full width of button wrapper */
+      padding-top: 80%; /* Height equal to 110% of the width */
+      margin-bottom: 10px; /* Add margin between buttons */
+      background-size: cover; /* Adjust background size to contain */
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      background-position: center; /* Center the background image */
+    }
 
-.small-button:hover {
-  background-color: #777;
-}
+    .button:hover {
+      background-color: rgba(255, 255, 255, 0.2); /* Add transparency on hover */
+    }
+
+    .small-button-container {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%); /* Center the small button container */
+      width: 100%; /* Ensure full width */
+    }
+
+    .small-button {
+      background-color: #555;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 5px;
+    }
+
+    .small-button:hover {
+      background-color: #777;
+    }
 
     .title-bar {
       display: flex;
@@ -149,10 +150,173 @@
 
     <div class="iframe-container">
       <div class="iframe-wrapper">
-        <iframe src="/ketcher/standalone/iframe.html"></iframe>
+        <iframe id="ifKetcher" src="/ketcher/standalone/index.html"></iframe>
       </div>
     </div>
+    <br/><br/>
 
-  </div>
+    <select id= "categorylist" style="display: none;">
+      <option value="" selected disabled> select molecule type </option>
+      <option><%= 'compounds' %></option>
+      <option><%= 'inhibitors' %></option>
+      <option><%= 'reactions' %></option>
+
+    </select>
+
+    <select id="proteinlist"  form="compound-form" style="display: none;">
+    <option value="" selected disabled> select a parent protein </option>
+    <%@proteins.each do |protein|%>
+      <option value= "<%= protein.id  %>"> <%= protein.title  %></option>
+    <%end%>
+    </select>
+
+    <select id="inhibitorlist"  form="reaction-form" style="display: none;">
+    <option value="" selected disabled> select a parent inhibitor </option>
+    <%@inhibitors.each do |inhibitor|%>
+      <option value= "<%= inhibitor.id%>"> <%= inhibitor.name%></option>
+    <%end%>
+    </select>
+
+    <form id="compound-form" action="/compounds" method="post" style="display: none;">
+      <input type="hidden" name="authenticity_token" value="token">
+      <!-- add methods that get these values from just the smiles (probably can use rdkit for most)-->
+    </form>
+
+    <!-- Container for dynamically generated elements -->
+    <div id="dynamic-content-container"></div>
+    </div>
+
+
+<script type="text/javascript">   
+var ketcherFrame = document.getElementById('ifKetcher');
+
+ketcherFrame.onload = function() {
+  var ketcher = null;
+  if ('contentDocument' in ketcherFrame)
+    ketcher = ketcherFrame.contentWindow.ketcher;
+  else // For compatibility with older versions of IE
+    ketcher = document.frames['ifKetcher'].window.ketcher;
+  setupKetcherIntegration(ketcher);
+};
+
+function setupKetcherIntegration(ketcher) {
+  createButtonTextBoxFormSet(ketcher, 'Retrieve SMILES', 'SMILES', 'Add To:');
+  createButtonTextBoxFormSet(ketcher, 'Retrieve SMARTS', 'SMARTS', 'Add To Reactions');
+}
+
+function createButtonTextBoxFormSet(ketcher, buttonText, placeholderText, formButtonText) {
+  var container = document.createElement('div');
+  container.id = 'ketcherButtonsContainer';
+  container.className = 'ketcherButtonsContainer';
+  container.style.width = '85%';
+  container.style.marginTop = '40px';
+  container.style.position = 'relative';
+  container.style.left = '50%';
+  container.style.transform = 'translateX(-50%)';
+
+  var retrieveButton = document.createElement('button');
+  retrieveButton.textContent = buttonText;
+  retrieveButton.style.marginLeft = '4%';
+
+  var textBox = document.createElement('input');
+  textBox.type = 'text';
+  textBox.style.width = '25%';
+  textBox.style.marginLeft = '1%';
+  textBox.style.marginRight = '2%';
+  textBox.placeholder = placeholderText;
+
+  var form = document.getElementById('compound-form').cloneNode(true);
+  form.style.display = 'inline';
+  
+  var submitButton = document.createElement('input');
+  submitButton.value = formButtonText; 
+  submitButton.type = 'submit'
+  submitButton.style.display = 'none';
+  submitButton.style.marginRight = '2%';
+
+  var formInput = document.createElement('input');
+  formInput.type = 'hidden'
+  formInput.name = 'compound[smiles]';
+
+  var dropDown = document.getElementById('categorylist').cloneNode(true);
+  dropDown.style.display = 'none';
+  dropDown.style.marginRight = '2%';
+
+  var proteinDropDown = document.getElementById('proteinlist').cloneNode(true);
+  proteinDropDown.style.display = 'none';
+  proteinDropDown.style.marginRight = '2%';
+
+  var inhibitorDropDown = document.getElementById('inhibitorlist').cloneNode(true);
+  inhibitorDropDown.style.display = 'none';
+  inhibitorDropDown.style.marginRight = '2%';
+
+  var selectedCategory, proteinId, inhibitorId, smiles; 
+
+  retrieveButton.addEventListener('click', function() {
+    var getTextPromise = buttonText === 'Retrieve SMILES' ? ketcher.getSmiles() : ketcher.getSmarts();
+    getTextPromise.then(function(textString) {
+      textBox.value = textString;
+      console.log(buttonText + ' string:', textString);
+      formInput.value = textString;
+      
+      submitButton.style.display = 'inline';
+      dropDown.style.display = 'inline';
+
+      dropDown.addEventListener('change', function() {
+        selectedCategory = this.value;
+
+        if (selectedCategory === 'inhibitors') {
+          proteinDropDown.style.display = 'inline';
+          inhibitorDropDown.style.display = 'none';
+          container.appendChild(proteinDropDown);
+        } else if (selectedCategory === 'reactions') {
+          inhibitorDropDown.style.display = 'inline';
+          proteinDropDown.style.display = 'none';
+          container.appendChild(inhibitorDropDown);
+        }  else if (selectedCategory === 'compounds') {
+          proteinDropDown.style.display = 'none';
+          inhibitorDropDown.style.display = 'none';
+        }
+      });
+    }).catch(function(error) {
+      console.error('Error retrieving ' + buttonText + ' string:', error);
+    });
+  });
+
+  proteinDropDown.addEventListener('change', function() {
+    proteinId = this.value;
+  });
+
+  inhibitorDropDown.addEventListener('change', function() {
+    inhibitorId = this.value;
+  });
+
+  submitButton.addEventListener('click', function() {
+    updateForm();
+  });
+
+  function updateForm() {
+    if (selectedCategory === 'inhibitors') {
+      formInput.name = selectedCategory.slice(0, -1) + '[smiles]';
+      form.action = "/" + "proteins" + "/" + proteinId + "/" + selectedCategory;
+    } else if (selectedCategory === 'reactions') {
+      form.action = "/" + "inhibitors" + "/" + inhibitorId + "/" + selectedCategory;
+      formInput.name = selectedCategory.slice(0, -1) + '[reaction_smiles]';
+    } 
+  }
+
+  container.appendChild(retrieveButton);
+  container.appendChild(textBox);
+  form.appendChild(submitButton);
+  form.appendChild(formInput);
+  container.appendChild(form);
+  container.appendChild(dropDown);
+  
+  document.getElementById('dynamic-content-container').appendChild(container);
+}
+</script>
+
+
 </body>
 </html>
+

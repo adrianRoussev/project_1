@@ -24,17 +24,17 @@ class CompoundsController < ApplicationController
         molwt: params[:compound][:molwt]
 
       })
-      compound.image_path = "/#{compound.name}.svg"
+      compound.image_path = "/#{compound.smiles}.svg"
       compound.get_params_from_rdkit(@molecular_params, compound)
 
       compound.save
 
       python_script_path = Rails.root.join('python_scripts', 'smiles_render.py')
-      image_file_path = Rails.root.join('public', "#{compound.name}.svg")
+      image_file_path = Rails.root.join('public', "#{compound.smiles}.svg")
         
       system("python3 #{python_script_path} '#{compound.smiles}' '#{image_file_path}'")
             
-      compound.update(image_path: "/#{compound.name}.svg")
+      compound.update(image_path: "/#{compound.smiles}.svg")
       
       compound.save
             

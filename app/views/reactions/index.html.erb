@@ -1,48 +1,146 @@
-
-<h1>All reactions for <%= @inhibitor.name %></h1>
-
-<ol>
-<% @reactions.each do |reaction| %>
-<li><h3><a href="/reactions/<%= reaction.id %>"><%= reaction.products %></a></h3></li>
-<ul>
-<li> Reactants(listed by smiles): <%= reaction.get_smiles_array(reaction.reactants) %> <br/> Mass Used: <%= reaction.get_compound_quantity(reaction.reactants)%> </li><br/>
-<li> Products(listed by smiles):<%=  reaction.get_smiles_array(reaction.products) %> <br/> Product Yeild: <%= reaction.get_compound_quantity(reaction.products)%></li><br/>
-<li> Catalysts(listed by smiles): <%=  reaction.get_smiles_array(reaction.catalysts)%> <br/> Mass Used: <%= reaction.get_compound_quantity(reaction.catalysts)%></li> <br/>
-<li> <%= reaction.solvent %></li> <br/>
-<li> <%= reaction.step_number %></li> <br/>
-<li> <%= reaction.type_of_reaction %></li><br/>
-<li> <%= reaction.temperature_c %></li> <br/>
-<li> <%= reaction.reaction_smiles %></li> <br/>
-<li> <%= reaction.image_path %></li> 
-
-
-</ul><br/>
-
-            
-
-
-<% if reaction.image_path %>
-<%= image_tag(reaction.image_path, alt: 'Chemical Structure', size: '10%') %>
-<% else %>
-  <p>Chemical structure image not available.</p>
-<% end %><br/><br/>
-  
-
-  <button onclick="location.href='/reactions/<%= reaction.id %>/edit'">Edit</button>
-  
-  <form action="/reactions/<%= reaction.id %>" method="POST">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="submit" value="Delete"/>
-  </form>
-<% end %><br/>
-
-</ol>
-
-  <button onclick="location.href= '/inhibitors/<%= @inhibitor.id%>/reactions/new'">New Reaction</button><br/><br/>
- <%= link_to "<- Back to home", "/" %>
-
-
-
-
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Proteins</title>
+  <style>
+    body {
+      background-image: url('<%= asset_path("molecules_black_background.jpeg") %>');
+      background-size: cover;
+      background-repeat: no-repeat;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .reaction-instance {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    h1 {
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+      border-radius: 30px;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #555;
+      color: #fff;
+    }
+    tr:nth-child(even) {
+      background-color: #444;
+    }
+    .chemical-structure {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .chemical-structure img {
+      max-width: 100%;
+      border-radius: 5px;
+    }
+    .edit-delete-container {
+      margin-top: 10px;
+      text-align: right;
+    }
+    .edit-button,
+    .delete-button {
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-left: 10px;
+    }
+    .edit-button:hover,
+    .delete-button:hover {
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>All reactions for <%= @inhibitor.name %></h1>
+    <ol>
+      <% @reactions.each do |reaction| %>
+        <li>
+          <div class="reaction-instance">
+            <table>
+              <tr>
+                <th colspan="2">Reaction Details</th>
+              </tr>
+              <tr>
+                <td>Reactants (listed by smiles):</td>
+                <td><%= reaction.get_smiles_array(reaction.reactants) %><br/> Mass Used: <%= reaction.get_compound_quantity(reaction.reactants)%></td>
+              </tr>
+              <tr>
+                <td>Products (listed by smiles):</td>
+                <td><%=  reaction.get_smiles_array(reaction.products) %><br/> Product Yield: <%= reaction.get_compound_quantity(reaction.products)%></td>
+              </tr>
+              <tr>
+                <td>Catalysts (listed by smiles):</td>
+                <td><%=  reaction.get_smiles_array(reaction.catalysts)%><br/> Mass Used: <%= reaction.get_compound_quantity(reaction.catalysts)%></td>
+              </tr>
+              <tr>
+                <td>Solvent:</td>
+                <td><%= reaction.solvent %></td>
+              </tr>
+              <tr>
+                <td>Step Number:</td>
+                <td><%= reaction.step_number %></td>
+              </tr>
+              <tr>
+                <td>Type of Reaction:</td>
+                <td><%= reaction.type_of_reaction %></td>
+              </tr>
+              <tr>
+                <td>Temperature (°C):</td>
+                <td><%= reaction.temperature_c %></td>
+              </tr>
+              <tr>
+                <td>Reaction SMILES:</td>
+                <td><%= reaction.reaction_smiles %></td>
+              </tr>
+              <tr>
+                <td colspan="2" class="chemical-structure">
+                  <% if reaction.image_path %>
+                    <img src="<%= reaction.image_path %>" alt="Chemical Structure">
+                  <% else %>
+                    <p>Chemical structure image not available.</p>
+                  <% end %>
+                </td>
+              </tr>
+            </table>
+            <div class="edit-delete-container">
+              <button class="edit-button" onclick="location.href='/reactions/<%= reaction.id %>/edit'">Edit</button>
+              <form action="/reactions/<%= reaction.id %>" method="POST">
+                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="submit" class="delete-button" value="Delete"/>
+              </form>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ol>
+    <button onclick="location.href= '/inhibitors/<%= @inhibitor.id%>/reactions/new'">New Reaction</button><br/><br/>
+    <%= link_to "<- Back to home", "/" %>
+  </div>
+</body>
+</html>

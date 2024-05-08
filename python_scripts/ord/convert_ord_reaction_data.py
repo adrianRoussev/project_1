@@ -365,15 +365,16 @@ class ReactionSimilarity:
 #         for reaction[0] in reaction:
 
 
+input_smiles = '[CH3:1][NH:2][CH3:3].Cl[CH2:5][CH2:6][CH:7]1[CH2:13][N:12]([CH3:14])[C:11](=[S:15])[C:10]2[CH:16]=[C:17]([N+:20]([O-:22])=[O:21])[CH:18]=[CH:19][C:9]=2[O:8]1>>[CH3:1][N:2]([CH3:3])[CH2:5][CH2:6][CH:7]1[CH2:13][N:12]([CH3:14])[C:11](=[S:15])[C:10]2[CH:16]=[C:17]([N+:20]([O-:22])=[O:21])[CH:18]=[CH:19][C:9]=2[O:8]1'
 
-# input_smiles = '[CH3:1][NH:2][CH3:3].Cl[CH2:5][CH2:6][CH:7]1[CH2:13][N:12]([CH3:14])[C:11](=[S:15])[C:10]2[CH:16]=[C:17]([N+:20]([O-:22])=[O:21])[CH:18]=[CH:19][C:9]=2[O:8]1>>[CH3:1][N:2]([CH3:3])[CH2:5][CH2:6][CH:7]1[CH2:13][N:12]([CH3:14])[C:11](=[S:15])[C:10]2[CH:16]=[C:17]([N+:20]([O-:22])=[O:21])[CH:18]=[CH:19][C:9]=2[O:8]1'
+file = '/Users/ashort/ord_data/ord-data/data/01/ord_dataset-01dbb772c5e249108f0b191ed17a2c0c.pb'
+similarity_type= 'total similarity'
+cutoff_score = 0.5
+params = ['identifiers', 'reaction_id']
+reaction_similarity = ReactionSimilarity(file, input_smiles, cutoff_score, similarity_type, params)
 
-# file = '/Users/ashort/ord_data/ord-data/data/01/ord_dataset-01dbb772c5e249108f0b191ed17a2c0c.pb'
-# similarity_type= 'total similarity'
-# cutoff_score = 0.5
-# params = ['identifiers', 'reaction_id']
-# result= get_top_similar_reactions_with_param(file, input_smiles, cutoff_score, similarity_type, params)
-# print(result)
+result= reaction_similarity.get_top_similar_reactions_with_param()
+print(result)
 #  if mol1 is not None and mol2 is not None:
 #         fp1 = AllChem.GetMorganFingerprint(mol1, 2)
 #         fp2 = AllChem.GetMorganFingerprint(mol2, 2)

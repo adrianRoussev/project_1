@@ -1,6 +1,18 @@
 class InhibitorsController < ApplicationController
     def index
-      @inhibitors = Inhibitor.all
+      protein_id = params[:protein_id]
+      @proteins = Protein.all
+      @inhibitors = Inhibitor.where(protein_id: protein_id)
+      
+      if protein_id
+        @protein = Protein.find(protein_id)
+      end
+    end
+
+    def search
+      protein_id = params[:protein_id]
+      @inhibitors = Inhibitor.where(protein_id: protein_id)
+      @proteins = Protein.all
     end
   
     def show

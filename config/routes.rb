@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   get "/", to: "welcome#index"
-
+  
   get "/proteins", to: "proteins#index"
   get "/proteins/new", to: "proteins#new"
   post "/proteins", to: "proteins#create"
@@ -47,5 +47,9 @@ Rails.application.routes.draw do
   get '/reactions/:id/edit', to: 'reactions#edit'
   patch '/reactions/:id', to: 'reactions#update'
   delete '/reactions/:id', to: 'reactions#destroy'
+
+  get "/ketcher/standalone/env_url", to: 'ketcher#env_url'
+
+
 
 end
